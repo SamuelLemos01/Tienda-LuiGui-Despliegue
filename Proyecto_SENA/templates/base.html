@@ -28,7 +28,6 @@
         <a href="{% url 'inicio' %}"><img src="{% static 'images/logo.png' %}" class="logo"></a>
 
         <ul class="items-navbar">
-
             <a href="{% url 'inicio' %}"><img src="{% static 'images/logo.png' %}" class="logo-responsive"></a>
             <div class="cerrar-icono"><i class="ri-close-line"></i></div>
             {% if user.is_authenticated %}
@@ -72,8 +71,8 @@
             <a href="{% url 'login' %}"><i class="ri-user-line"></i></a>
             {% endif %}
             <div class="bx bx-menu" id="menu-icon"></div>
-            </div>
-        </header>
+        </div>
+    </header>
 
     {% block content %}
     <main>
@@ -81,15 +80,15 @@
     </main>
     {% endblock %} 
     
-     <!-- footer --> 
+    <!-- footer --> 
     <footer class="pie-pagina">
         <div class="contenedores contenedor-pie-pagina">
             <div class="menu-pie-pagina">
                 <div class="pie-contenido">
-                    <img src="{% static 'images/logo.png' %}" alt="">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo Tienda LuiGui">
                 </div>
                 <div class="informacion-contacto">
-                    <p class="titulo-pie-pagina">Información de Contacto</p>
+                    <p class="titulo-pie-pagina">Información de Contacto</p>
                     <ul>
                         <li><i class="fa-solid fa-location-dot"></i> Calle 9 #5-71, El Pital, Huila</li>
                         <li><i class="fa-solid fa-phone"></i> (312) 597 5274</li>
@@ -102,15 +101,14 @@
                             </a>
                         </span>
                         <span class="whattsapp">
-                            <a href="https://wa.me/573125975274?text=Hola,%20quiero%20más%20información
-                            " target="_blank" rel="noopener noreferrer">
+                            <a href="https://wa.me/573125975274?text=Hola,%20quiero%20más%20información" target="_blank" rel="noopener noreferrer">
                                 <i class="fa-brands fa-whatsapp"></i>
                             </a>
                         </span>
                     </div>
                 </div>
                 <div class="informacion">
-                    <p class="titulo-pie-pagina">Enlaces Rápidos</p>
+                    <p class="titulo-pie-pagina">Enlaces Rápidos</p>
                     <ul>
                         <li><a href="{% url 'inicio' %}">Inicio</a></li>
                         <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
@@ -125,15 +123,15 @@
                 &copy; Copyright The Towers Development 2025
             </p>
         </div>
-    </footer>
+    </footer>
     <script src="{% static 'js/script.js' %}"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script>
-    AOS.init({
-        offset: 100,
-        duration: 1450,
-    }); 
-</script>
+    <script>
+        AOS.init({
+            offset: 100,
+            duration: 1450,
+        });
+    </script>
 
     {% block script %} {% endblock %}
 </body>

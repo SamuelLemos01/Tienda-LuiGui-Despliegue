@@ -1,3 +1,4 @@
+/* Estilos generales mantenidos igual */
 * {
     padding: 0;
     margin: 0;
@@ -16,10 +17,10 @@
 
     --h1-font: 5.5rem;
     --h2-rem: 3.5rem;
-    --p-font: 1rem
+    --p-font: 1rem;
     --color-primario: #c7a17a;
-	--color-fondo: #f9f5f0;
-	--color-oscuro: #151515;
+    --color-fondo: #f9f5f0;
+    --color-oscuro: #151515;
 }
 
 /* Menu */
@@ -93,7 +94,6 @@ header {
 }
 
 .nav-iconos a:hover {
-    /* transform: translateY(-5px) scale(1.1); */
     color: green;
 }
 
@@ -113,154 +113,32 @@ header {
 }
 
 .nav-iconos a:hover {
-    /* transform: translateY(-5px) scale(1.1); */
     color: green;
 }
 
-
 /* footer */
-
 .pie-pagina {
     background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
 }
 
 .contenedor-pie-pagina {
-	display: flex;
-	flex-direction: column;
-	gap: 3rem;
-	padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding: 1rem;
 }
 
 .menu-pie-pagina {
-	display: flex;
+    display: flex;
     gap: 5rem;
-	/* justify-content: space-evenly; */
-}
-@media (max-width: 680px) {
-    .menu-pie-pagina {
-        flex-direction: column;
-    }
-}
-@media (max-width: 1000px) {
-    .menu-pie-pagina {
-        flex-direction: column;
-    }
-    .menu-pie-pagina {
-        display: flex;
-        gap: 5rem;
-        justify-content: space-evenly; 
-    }
-    .informacion-contacto{
-        padding-left: 7rem;
-    }
-}
-@media (min-width: 1600px) {
-    .menu-pie-pagina {
-        display: flex;
-        gap: 5rem;
-        justify-content: space-evenly; 
-    }
 }
 
 .titulo-pie-pagina {
-	font-weight: 600;
-	font-size: 1.6rem;
-	text-transform: uppercase;
-	color: #000;
-	margin-bottom: 2rem;
-}
-.pie-contenido {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    align-items: center;
-}
-.pie-contenido img{
-    width: 60%;
-}
-.informacion-contacto,
-.informacion,
-.boletin {
-	display: flex;
-	flex-direction: column;
-}
-.informacion{
-    padding-left: 6rem;
-}
-.informacion-contacto ul,
-.informacion ul {
-	display: flex;
-	flex-direction: column;
-	gap: 1.5rem;
-}
-
-.informacion-contacto ul li,
-.informacion ul li {
-	list-style: none;
-	color: #000;
-	font-size: 1.4rem;
-	font-weight: 300;
-	display: flex;
-	align-items: center;
-}
-
-.informacion-contacto ul li i {
-	margin-right: 1rem;
-	min-width: 2rem;
-	color: #000;
-}
-
-.informacion ul li a {
-	text-decoration: none;
-	color: #000;
-	font-weight: 300;
-	transition: color 0.3s ease;
-}
-
-.informacion ul li a:hover {
-	color: var(--color-oscuro);
-}
-
-.iconos-sociales {
-	display: flex;
-	gap: 1.5rem;
-	margin-top: 2rem;
-}
-
-.iconos-sociales span {
-	border-radius: 50%;
-	width: 3.5rem;
-	height: 3.5rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition: transform 0.3s ease;
-}
-
-.iconos-sociales span:hover {
-	transform: translateY(-3px);
-}
-
-.iconos-sociales span i {
-	color: #fff;
-	font-size: 1.4rem;
-}
-
-.facebook {
-	background-color: #3b5998;
-}
-
-.whattsapp {
-	background-color: green;
-}
-.derechos-autor {
-    text-align: center;
-}
-/* .pie {
-    width: 100%;
-    height: 15vh;
-    background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
-    align-content: center;
+    font-weight: 600;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    color: #000;
+    margin-bottom: 2rem;
 }
 
 .pie-contenido {
@@ -271,9 +149,90 @@ header {
 }
 
 .pie-contenido img {
-    width: 15%;
-    height: auto;
-} */
+    width: 60%;
+}
+
+.informacion-contacto,
+.informacion,
+.boletin {
+    display: flex;
+    flex-direction: column;
+}
+
+.informacion {
+    padding-left: 6rem;
+}
+
+.informacion-contacto ul,
+.informacion ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.informacion-contacto ul li,
+.informacion ul li {
+    list-style: none;
+    color: #000;
+    font-size: 1.4rem;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+}
+
+.informacion-contacto ul li i {
+    margin-right: 1rem;
+    min-width: 2rem;
+    color: #000;
+}
+
+.informacion ul li a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 300;
+    transition: color 0.3s ease;
+}
+
+.informacion ul li a:hover {
+    color: var(--color-oscuro);
+}
+
+.iconos-sociales {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.iconos-sociales span {
+    border-radius: 50%;
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.iconos-sociales span:hover {
+    transform: translateY(-3px);
+}
+
+.iconos-sociales span i {
+    color: #fff;
+    font-size: 1.4rem;
+}
+
+.facebook {
+    background-color: #3b5998;
+}
+
+.whattsapp {
+    background-color: green;
+}
+
+.derechos-autor {
+    text-align: center;
+}
 
 /* Estilos para el dropdown */
 .nav-user-dropdown {
@@ -328,7 +287,7 @@ header {
     font-size: 16px !important;
     color: var(--second-color);
     margin: 0 !important;
-} */
+}
 
 .dropdown-content::before {
     content: '';
@@ -368,37 +327,9 @@ header {
     animation: notificationPulse 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@media (max-width: 1070px) {
-    .dropdown-content {
-        position: fixed;
-        top: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        max-width: 300px;
-    }
-    
-    .dropdown-content::before {
-        right: 50%;
-        transform: translateX(50%);
-    }
-}
-/* Responsive */
+/* Media Queries - Optimizadas para iPhone X/16 Pro */
 
-@media (max-width: 1610px) {
-    header {
-        padding: 15px 7%;
-    }
-}
-
-@media (max-width: 1500px) {
-    :root {
-        --h1-font: 4.8rem;
-        --h2-font: 2.8rem;
-        --p-font: 15px;
-    }
-}
-
+/* Tablets y dispositivos medianos */
 @media (max-width: 1070px) {
     header {
         padding: 10px 4%;
@@ -421,6 +352,7 @@ header {
         flex-direction: column;
         background-color: var(--bg-color);
         transition: all .50s ease;
+        z-index: 2000; /* Mayor z-index para estar por encima de todo */
     }
 
     .items-navbar a {
@@ -437,6 +369,18 @@ header {
         left: 0;
     }
 
+    /* Cuando el menú está abierto, ocultar los iconos de usuario y carrito */
+    body:has(.items-navbar.open) .nav-iconos .nav-user-dropdown,
+    body:has(.items-navbar.open) .nav-iconos .cart-icon-container {
+        display: none;
+    }
+
+    /* Alternativa si :has no es compatible con todos los navegadores */
+    .items-navbar.open ~ .nav-iconos .nav-user-dropdown,
+    .items-navbar.open ~ .nav-iconos .cart-icon-container {
+        display: none;
+    }
+
     a .logo-responsive {
         width: 30%;
         justify-self: center;
@@ -451,52 +395,211 @@ header {
         display: block;
     }
 
+    .dropdown-content {
+        position: fixed;
+        top: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 300px;
+    }
+    
+    .dropdown-content::before {
+        right: 50%;
+        transform: translateX(50%);
+    }
+
+    /* Menu pie de página - Centrado en tablet/mobile */
+    .menu-pie-pagina {
+        flex-direction: column;
+        gap: 3rem;
+        align-items: center;
+        text-align: center;
+    }
+
+    .informacion {
+        padding-left: 0;
+    }
+
+    .informacion-contacto {
+        padding-left: 0;
+    }
+    
+    .informacion-contacto ul,
+    .informacion ul {
+        align-items: center;
+    }
+    
+    .informacion-contacto ul li {
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .titulo-pie-pagina {
+        text-align: center;
+    }
+
     :root {
         --h1-font: 4.5rem;
         --h2-font: 2.6rem;
     }
 }
 
-@media(max-width:850px) {
-    .pie {
-        height: auto;
-        padding: 20px 0;
+/* Específico para iPhone X/16 Pro (375px - 390px) */
+@media (max-width: 390px) {
+    header {
+        padding: 10px 3%;
     }
 
-    .pie-contenido {
-        flex-direction: column;
-        gap: 20px;
-        text-align: center;
-    }
-
-    .pie-contenido img {
-        width: 30%;
-    }
-}
-
-@media(max-width: 530px) {
-    :root {
-        --h1-font: 3.5rem;
-        --h2-font: 2.2rem;
+    .logo {
+        width: 100px;
     }
 
     .nav-iconos a {
-        margin-right: 7px;
+        margin: 0 10px;
+        font-size: 20px;
+    }
+
+    .items-navbar {
+        padding: 70px 20px;
+    }
+
+    .items-navbar a {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .items-navbar.open .logo-responsive {
+        width: 40%;
+        margin: 0 auto 20px;
+    }
+
+    /* Footer para iPhone - Centrado */
+    .titulo-pie-pagina {
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .menu-pie-pagina {
+        text-align: center;
+        align-items: center;
     }
 
     .pie-contenido {
-        padding: 15px;
+        gap: 20px;
+        justify-content: center;
     }
 
     .pie-contenido img {
-        width: 40%;
-        max-width: 200px;
+        width: 80%;
     }
 
-    .pie-contenido p {
-        font-size: 0.9rem;
-        padding: 0;
+    .informacion-contacto, 
+    .informacion {
+        align-items: center;
+    }
+
+    .informacion-contacto ul,
+    .informacion ul {
+        align-items: center;
+    }
+
+    .informacion-contacto ul li,
+    .informacion ul li {
+        font-size: 1rem;
         text-align: center;
-        width: 100%;
+        justify-content: center;
+    }
+
+    .iconos-sociales {
+        justify-content: center;
+    }
+
+    .iconos-sociales span {
+        width: 2.8rem;
+        height: 2.8rem;
+    }
+
+    .iconos-sociales span i {
+        font-size: 1.1rem;
+    }
+
+    .contenedor-pie-pagina {
+        gap: 2rem;
+        padding: 1rem 0.5rem;
+    }
+
+    .menu-pie-pagina {
+        gap: 2rem;
+    }
+
+    .derechos-autor {
+        font-size: 0.9rem;
+        margin-top: 1rem;
+    }
+
+    /* Ajustes de fuente raíz */
+    :root {
+        --h1-font: 2.5rem;
+        --h2-font: 1.8rem;
+        --p-font: 0.9rem;
+    }
+
+    /* Dropdown ajustado */
+    .dropdown-content {
+        min-width: 180px;
+        right: -10px;
+    }
+
+    /* Carrito */
+    #contador-carrito {
+        min-width: 18px;
+        height: 18px;
+        font-size: 12px;
+        top: -6px;
+        right: -6px;
+    }
+}
+
+/* Especialmente para pantallas más pequeñas */
+@media (max-width: 320px) {
+    .logo {
+        width: 90px;
+    }
+
+    .nav-iconos a {
+        margin: 0 8px;
+        font-size: 18px;
+    }
+
+    .items-navbar a {
+        font-size: 1.3rem;
+    }
+
+    .pie-contenido img {
+        width: 90%;
+    }
+
+    .informacion-contacto ul li,
+    .informacion ul li {
+        font-size: 0.9rem;
+    }
+
+    .dropdown-content {
+        min-width: 160px;
+    }
+}
+
+/* Animación para el menú hamburguesa */
+@keyframes notificationPulse {
+    0% {
+        transform: scale(0.95);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
     }
 }
