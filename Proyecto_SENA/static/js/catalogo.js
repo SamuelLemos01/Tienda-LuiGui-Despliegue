@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: JSON.stringify({
                     // Los datos del pedido que estés enviando actualmente
+                    // Aquí debes incluir todos los datos necesarios para el pedido
                 })
             })
             .then(response => {
