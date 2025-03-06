@@ -1,47 +1,41 @@
 .pasarela-contenedor {
     max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 20px;
+    margin: 1.5rem auto;
+    padding: 0 15px;
 }
 
 .titulo-pasarela {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     color: #333;
     font-weight: 700;
-    margin-top: 100px;
-}
-
-
-.pasarela-contenedor h2 {
-    text-align: center;
-    color: #333;
-    font-size: 2rem;
-    margin-bottom: 2rem;
+    margin-top: 80px;
+    font-size: 1.8rem;
 }
 
 .pasarela-card {
     background: white;
     border-radius: 15px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     color: #333;
     font-weight: 500;
+    font-size: 0.95rem;
 }
 
 .form-group input,
@@ -61,27 +55,29 @@
 }
 
 .payment-methods {
-    margin-top: 1rem;
+    margin-top: 0.8rem;
 }
 
 .horizontal-payment-methods {
     display: flex;
     flex-direction: row !important;
     justify-content: flex-start;
-    justify-content: center  !important;
+    justify-content: center !important;
     align-items: center !important;
-    gap: 20px !important;
-    margin-top: 10px;
+    gap: 15px !important;
+    margin-top: 8px;
+    flex-wrap: wrap;
 }
 
 .payment-option {
-    margin-right: 15px;
+    margin-right: 10px;
+    margin-bottom: 5px;
 }
 
 .modo-pago {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     padding: 0.5rem 0;
 }
 
@@ -127,6 +123,7 @@
 .modal-title {
     margin: 0;
     font-weight: 500;
+    font-size: 1.2rem;
 }
 
 .btn-close {
@@ -139,6 +136,7 @@
 
 .modal-body {
     padding: 15px;
+    text-align: center;
 }
 
 .modal-footer {
@@ -148,7 +146,8 @@
 }
 
 .qr-image {
-    max-width: 250px;
+    max-width: 100%;
+    height: auto;
     margin: 0 auto;
 }
 
@@ -180,7 +179,8 @@
 }
 
 #qr-container img {
-    max-width: 250px;
+    max-width: 100%;
+    height: auto;
     margin: 10px auto;
 }
 
@@ -203,6 +203,8 @@
     transform: translate(-50%, -50%);
     text-align: center;
     color: white;
+    width: 80%;
+    max-width: 300px;
 }
 
 .spinner {
@@ -246,7 +248,7 @@
     display: flex;
     align-items: center;
     color: #333;
-    font-size: 1rem;
+    font-size: 0.95rem;
 }
 
 input[type="radio"] {
@@ -313,28 +315,30 @@ input[type="radio"] {
 }
 
 .total-section {
-    margin-top: 2rem;
-    padding-top: 1rem;
+    margin-top: 1.5rem;
+    padding: 1rem;
     border-top: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+    border-radius: 8px;
 }
 
 .total-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #333;
 }
 
 .total {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #1abc9c;
 }
 
 .btn-proceder {
     width: 100%;
-    padding: 1rem;
+    padding: 0.9rem;
     background: #1abc9c;
     color: white;
     border: none;
@@ -342,17 +346,11 @@ input[type="radio"] {
     font-size: 1.1rem;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: 1.5rem;
+    margin-top: 1.2rem;
 }
 
 .btn-proceder:hover {
     background: #15803d;
-}
-
-@media (max-width: 768px) {
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
 }
 
 .error {
@@ -403,13 +401,90 @@ input[type="radio"] {
     color: #666;
 }
 
-.total-section {
-    background-color: #f8f9fa;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-top: 1.5rem;
-}
-
 .registrado {
     cursor: not-allowed;
+}
+
+/* Media queries para dispositivos móviles */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .titulo-pasarela {
+        margin-top: 70px;
+        font-size: 1.6rem;
+    }
+    
+    .pasarela-card {
+        padding: 1.2rem;
+    }
+    
+    .btn-proceder {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+    
+    .total {
+        font-size: 1.2rem;
+    }
+}
+
+/* Media query específico para iPhone X / 16 Pro */
+@media (max-width: 375px) {
+    .pasarela-contenedor {
+        padding: 0 12px;
+        margin: 1rem auto;
+    }
+    
+    .titulo-pasarela {
+        margin-top: 60px;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .pasarela-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+    
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .form-group label {
+        font-size: 0.9rem;
+    }
+    
+    .form-group input,
+    .form-group select {
+        padding: 0.7rem;
+        font-size: 0.95rem;
+    }
+    
+    .horizontal-payment-methods {
+        gap: 10px !important;
+    }
+    
+    .modal-dialog {
+        margin: 5% auto;
+        width: 95%;
+    }
+    
+    .modal-title {
+        font-size: 1.1rem;
+    }
+    
+    .loading-content {
+        width: 90%;
+    }
+    
+    .loading-content h3 {
+        font-size: 1.2rem;
+    }
+    
+    .loading-content p {
+        font-size: 0.9rem;
+    }
 }
