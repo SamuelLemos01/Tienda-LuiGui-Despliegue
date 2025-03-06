@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: JSON.stringify({
                     // Los datos del pedido que estés enviando actualmente
-                    // Aquí debes incluir todos los datos necesarios para el pedido
                 })
             })
             .then(response => {
@@ -332,16 +331,16 @@ document.addEventListener("DOMContentLoaded", function () {
             const cantidad = parseInt(quantityInput.value);
 
             // Verificar que la cantidad sea válida (mayor a 0)
-            if (cantidad <= 0) {
+            if (isNaN(cantidad) || cantidad <= 0) {
                 mostrarNotificacion('La cantidad debe ser al menos 1 unidad', 'warning');
                 quantityInput.value = 1;
-                return;
+                return; // Aquí está la clave: salir de la función
             }
 
             // Verificar si hay suficiente stock
             if (cantidad > stock) {
                 mostrarNotificacion(`Lo sentimos, solo hay ${stock} unidades disponibles.`, 'warning');
-                return;
+                return; // Salir de la función si no hay suficiente stock
             }
 
             // Verificar si ya hay productos en el carrito
@@ -352,7 +351,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (cantidadTotal > stock) {
                 mostrarNotificacion(`Lo sentimos, no hay suficiente stock. Ya tienes ${existingProduct.cantidad} unidades en el carrito.`, 'warning');
-                return;
+                return; // Salir de la función si supera el stock total
             }
 
             const producto = {
@@ -460,7 +459,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const currentVal = parseInt(quantityInput.value);
             if (currentVal > 1) {
                 quantityInput.value = currentVal - 1;
-            } else if (currentVal <= 1) {
+            } else {
                 // Mostrar notificación si se intenta reducir más allá de 1
                 mostrarNotificacion('La cantidad mínima es 1 unidad', 'warning');
                 quantityInput.value = 1; // Asegurar que sea 1
