@@ -6,22 +6,39 @@ document.addEventListener('DOMContentLoaded', function() {
     configurarFormulario();
     configurarInputArchivo();
     
-    // Verificar que Bootstrap esté disponible y crear la modal
+    // Verificar que Bootstrap esté disponible y crear la modals
     let qrModal;
+    let successModal;
     try {
         if (typeof bootstrap !== 'undefined') {
-            const modalElement = document.getElementById('qrModal');
-            if (modalElement) {
-                qrModal = new bootstrap.Modal(modalElement);
-                console.log('Modal inicializada correctamente');
+            const qrModalElement = document.getElementById('qrModal');
+            if (qrModalElement) {
+                qrModal = new bootstrap.Modal(qrModalElement);
+                console.log('Modal QR inicializada correctamente');
             } else {
-                console.error('Elemento modal no encontrado');
+                console.error('Elemento modal QR no encontrado');
+            }
+            
+            const successModalElement = document.getElementById('successModal');
+            if (successModalElement) {
+                successModal = new bootstrap.Modal(successModalElement);
+                console.log('Modal de éxito inicializada correctamente');
+                
+                // Configurar el botón de "Ver mis pedidos"
+                const btnVerHistorial = document.getElementById('btn-ver-historial');
+                if (btnVerHistorial) {
+                    btnVerHistorial.addEventListener('click', function() {
+                        window.location.href = '/historial/';
+                    });
+                }
+            } else {
+                console.error('Elemento modal de éxito no encontrado');
             }
         } else {
             console.error('Bootstrap no está disponible');
         }
     } catch (error) {
-        console.error('Error al inicializar modal:', error);
+        console.error('Error al inicializar modals:', error);
     }
     
     // Cargar datos del usuario autenticado
@@ -215,6 +232,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Mostrar modal de éxito
+    function mostrarModalExito(mensaje) {
+        // Actualizar el mensaje en la modal
+        const successMessage = document.getElementById('success-message');
+        if (successMessage) {
+            successMessage.textContent = mensaje || 'Tu pedido ha sido realizado con éxito. Recibirás una confirmación por correo electrónico.';
+        }
+        
+        // Mostrar la modal
+        if (successModal) {
+            try {
+                successModal.show();
+                console.log('Modal de éxito mostrada');
+            } catch (error) {
+                console.error('Error al mostrar modal de éxito:', error);
+                // Fallback: mostrar alert si la modal falla
+                alert(mensaje || 'Pedido realizado con éxito, espere confirmación por correo electrónico');
+            }
+        } else {
+            console.error('Modal de éxito no inicializada');
+            // Fallback: mostrar alert si la modal no está inicializada
+            alert(mensaje || 'Pedido realizado con éxito, espere confirmación por correo electrónico');
+        }
+    }
+    
     // Configurar validación y envío del formulario
     function configurarFormulario() {
         const formPasarela = document.getElementById('form-pasarela');
@@ -289,8 +331,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (data.status === 'success') {
                     localStorage.removeItem('carrito'); // Limpiar carrito
-                    alert('Pedido realizado con éxito, espere confirmación por correo electrónico');
-                    window.location.href = data.redirect || '/historial/';
+                    
+                    // Mostrar modal de éxito en lugar de alert
+                    mostrarModalExito(data.message || 'Pedido realizado con éxito, espere confirmación por correo electrónico');
+                    
+                    // No redirigir automáticamente, dejar que el usuario vea la modal y elija
+                    // La redirección se hará al hacer clic en el botón de la modal
                 } else {
                     // Restaurar el botón
                     btnProceder.disabled = false;

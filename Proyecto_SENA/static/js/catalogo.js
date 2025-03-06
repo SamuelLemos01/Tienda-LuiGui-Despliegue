@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: JSON.stringify({
                     // Los datos del pedido que estés enviando actualmente
-                    // Aquí debes incluir todos los datos necesarios para el pedido
                 })
             })
             .then(response => {
@@ -314,6 +313,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Resetear cantidad a 1
             if (quantityInput) {
                 quantityInput.value = 1;
+                quantityInput.min = 1; // Asegurar que el mínimo sea 1
                 quantityInput.max = stock; // Establecer máximo según el stock
             }
         });
@@ -330,9 +330,16 @@ document.addEventListener("DOMContentLoaded", function () {
             const stock = parseInt(modal.getAttribute("data-stock"));
             const cantidad = parseInt(quantityInput.value);
 
+            // Verificar que la cantidad sea válida (mayor a 0)
+            if (cantidad <= 0) {
+                mostrarNotificacion('La cantidad debe ser al menos 1 unidad', 'warning');
+                quantityInput.value = 1;
+                return;
+            }
+
             // Verificar si hay suficiente stock
             if (cantidad > stock) {
-                alert(`Lo sentimos, solo hay ${stock} unidades disponibles.`);
+                mostrarNotificacion(`Lo sentimos, solo hay ${stock} unidades disponibles.`, 'warning');
                 return;
             }
 
@@ -343,7 +350,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 cantidad;
 
             if (cantidadTotal > stock) {
-                alert(`Lo sentimos, no hay suficiente stock. Ya tienes ${existingProduct.cantidad} unidades en el carrito.`);
+                mostrarNotificacion(`Lo sentimos, no hay suficiente stock. Ya tienes ${existingProduct.cantidad} unidades en el carrito.`, 'warning');
                 return;
             }
 
@@ -388,21 +395,55 @@ document.addEventListener("DOMContentLoaded", function () {
                 }, 150);
             }
 
-            const alert = document.createElement('div');
-            // Establecemos todos los estilos directamente para mayor control
-            alert.className = 'alert alert-success';
-            alert.style.position = 'fixed';
-            alert.style.top = '80px';
-            alert.style.right = '20px';
-            alert.style.zIndex = '9999';
-            alert.style.padding = '10px 15px';
-            alert.style.borderRadius = '4px';
-            alert.textContent = 'Producto agregado al carrito';
-            document.body.appendChild(alert);
-            
-            setTimeout(() => {
-                alert.remove();
-            }, 1500);
+            mostrarNotificacion('Producto agregado al carrito', 'success');
+        });
+    }
+
+    // Función para mostrar notificaciones
+    function mostrarNotificacion(mensaje, tipo = 'success') {
+        const alert = document.createElement('div');
+        alert.className = `alert alert-${tipo}`;
+        alert.style.position = 'fixed';
+        alert.style.top = '80px';
+        alert.style.right = '20px';
+        alert.style.zIndex = '9999';
+        alert.style.padding = '10px 15px';
+        alert.style.borderRadius = '4px';
+        alert.textContent = mensaje;
+        document.body.appendChild(alert);
+        
+        setTimeout(() => {
+            alert.remove();
+        }, 1500);
+    }
+
+    // Validación del input de cantidad para evitar valores no permitidos
+    if (quantityInput) {
+        // Prevenir el ingreso directo de valores negativos
+        quantityInput.addEventListener("keypress", function(e) {
+            const charCode = (e.which) ? e.which : e.keyCode;
+            if (charCode === 45) { // 45 es el código para el signo "-"
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Validar cuando cambia el valor
+        quantityInput.addEventListener("change", function() {
+            const value = parseInt(this.value);
+            if (isNaN(value) || value <= 0) {
+                // Resetear a 1 si se intenta poner 0, negativo o no es un número
+                this.value = 1;
+                mostrarNotificacion('La cantidad mínima es 1 unidad', 'warning');
+            }
+        });
+
+        // Validar cuando se pierde el foco
+        quantityInput.addEventListener("blur", function() {
+            const value = parseInt(this.value);
+            if (isNaN(value) || value <= 0) {
+                this.value = 1;
+            }
         });
     }
 
@@ -418,6 +459,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const currentVal = parseInt(quantityInput.value);
             if (currentVal > 1) {
                 quantityInput.value = currentVal - 1;
+            } else if (currentVal <= 1) {
+                // Mostrar notificación si se intenta reducir más allá de 1
+                mostrarNotificacion('La cantidad mínima es 1 unidad', 'warning');
+                quantityInput.value = 1; // Asegurar que sea 1
             }
         });
     }
@@ -434,7 +479,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (currentVal < stock) {
                 quantityInput.value = currentVal + 1;
             } else {
-                alert(`No puedes agregar más unidades. Stock disponible: ${stock}`);
+                mostrarNotificacion(`No puedes agregar más unidades. Stock disponible: ${stock}`, 'warning');
             }
         });
     }
