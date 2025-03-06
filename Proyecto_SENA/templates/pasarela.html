@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/pasarela.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="pasarela-contenedor">
+    <h2 class="titulo-pasarela">Datos de envío</h2>  
+    <div class="pasarela-card">
+        <form method="POST" action="{% url 'MessagePasarela' %}" id="form-pasarela" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="carrito_data" id="carrito_data">
+            
+            <div class="form-grid">
+                <div class="columna-izquierda">
+                    <div class="form-group">
+                        <label>Nombre:</label>
+                        {{ form.nombre }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>Apellido:</label>
+                        {{ form.apellido }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dirección:</label>
+                        {{ form.direccion }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teléfono:</label>
+                        {{ form.telefono }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>Correo:</label>
+                        {{ form.email }}
+                    </div>
+                </div>
+
+                <!-- Columna derecha -->
+                <div class="columna-derecha">
+                    <div class="form-group">
+                        <label>Municipio:</label>
+                        {{ form.municipio }}
+                    </div>
+
+                    <div class="form-group payment-methods">
+                        <label>Modo de pago:</label>
+                        <div class="modo-pago horizontal-payment-methods">
+                            {% for radio in form.metodo_pago %}
+                            <div class="form-check payment-option">
+                                {{ radio }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <label><strong>Enviar comprobante:</strong></label>
+                        <div class="file-upload-container">
+                            {{ form.comprobante_pago }}
+                        </div>
+                    </div>
+
+                    <div class="total-section">
+                        <div class="total-row">
+                            <span>Total</span>
+                            <span class="total" id="total">$0.00</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-proceder">Proceder al pedido</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="loading-screen">
+    <div class="loading-content">
+        <div class="spinner"></div>
+        <h3>Procesando tu pedido</h3>
+        <p>Por favor espera mientras procesamos tu información...</p>
+    </div>
+</div>
+
+<div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="qrModalLabel">Escanea para realizar tu pago</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="qr-bancolombia" src="{% static 'images/QR-DaviPlata.jpg' %}" class="qr-image d-none"
+                    alt="QR Bancolombia">
+                <img id="qr-nequi" src="{% static 'images/QR-Nequi.jpg' %}" class="qr-image d-none" alt="QR Nequi">
+                <img id="qr-daviplata" src="{% static 'images/QR-DaviPlata.jpg' %}" class="qr-image d-none"
+                    alt="QR DaviPlata">
+                <p class="mt-3">Escanea este código QR para completar tu pago y guarda el comprobante.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="qr-container" class="d-none"></div>
+
+<div style="display: none;">
+    <img id="qr-bancolombia-ref" src="{% static 'img/qr-bancolombia.png' %}" alt="QR Bancolombia">
+    <img id="qr-nequi-ref" src="{% static 'img/qr-nequi.png' %}" alt="QR Nequi">
+    <img id="qr-daviplata-ref" src="{% static 'img/qr-daviplata.png' %}" alt="QR DaviPlata">
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+<script src="{% static 'js/pasarela.js' %}"></script>
+{% endblock %}

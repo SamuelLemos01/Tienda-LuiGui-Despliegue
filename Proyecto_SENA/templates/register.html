@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
+{% block content %}
+
+<body>
+    <div class="section">
+        <div class="container">
+            {% if messages %} <!--Solo se usa si hay mensajes de parte del views-->
+            <div class="messages-container"
+                style="position: fixed; top: 20px; right: 20px; z-index: 1000; width: 300px;">
+                {% for message in messages %} <!--Bucle de django que recorre los mensajes-->
+                <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show"
+                    role="alert" style="margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                    {{ message }} <!--Muestra el error-->
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <div class="wrapper register-wrapper">
+                <div class="form-header">
+                    <div class="titles">
+                        <div class="title-login">Registro</div>
+                    </div>
+                </div>
+                <form method="POST" action="{% url 'register' %}">
+                    {% csrf_token %}
+                    <div class="input-box">
+                        <input type="text" class="input-field" id="reg-name" name="username" value="{{ form.username.value|default:'' }}" required>
+                        <label for="reg-name" class="label">Nombre Completo:</label>
+                        <i class='bx bx-user icon'></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="tel" class="input-field" id="reg-phone" name="numero" value="{{ form.numero.value|default:'' }}" required>
+                        <label for="reg-phone" class="label">Teléfono:</label>
+                        <i class='bx bx-phone icon'></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="text" class="input-field" id="reg-address" name="direccion" value="{{ form.direccion.value|default:'' }}" required>
+                        <label for="reg-address" class="label">Dirección:</label>
+                        <i class='bx bx-map icon'></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="email" class="input-field" id="reg-email" name="email" value="{{ form.email.value|default:'' }}" required>
+                        <label for="reg-email" class="label">Correo Electrónico:</label>
+                        <i class='bx bx-envelope icon'></i>
+                    </div>
+
+                    <div class="input-box">
+                        <input type="password" class="input-field" id="reg-pass" name="password1" required>
+                        <label for="reg-pass" class="label">Contraseña:</label>
+                        <i class='bx bx-hide icon'></i>
+                    </div>
+                    
+                    <div class="input-box">
+                        <input type="password" class="input-field" id="reg-pass" name="password2" required>
+                        <label for="reg-pass" class="label">Confirmar Contraseña:</label>
+                        <i class='bx bx-hide icon'></i>
+                    </div>
+
+                    <div class="input-box">
+                        <button type="submit" class="btn-submit" id="SignUpBtn">Registrarse <i
+                                class='bx bx-user-plus'></i></button>
+                    </div>
+                    <div class="switch-form">
+                        <span>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesión</a></span>
+                    </div>
+                    <div class="social-login">
+                        <p class="text-center">O inicia sesión con:</p>
+                        <div class="social-buttons text-center">
+                            <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-outline-primary">
+                                <i class='bx bxl-google'></i> Google
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Seleccionar todos los campos de entrada de contraseña y sus iconos
+    const camposContraseña = document.querySelectorAll('input[type="password"]');
+    const iconosContraseña = document.querySelectorAll('.bx-hide');
+
+    iconosContraseña.forEach((icono, indice) => {
+        icono.addEventListener('click', function() {
+            // Alternar visibilidad de la contraseña
+            if (camposContraseña[indice].type === 'password') {
+                camposContraseña[indice].type = 'text';
+                this.classList.remove('bx-hide');
+                this.classList.add('bx-show');
+            } else {
+                camposContraseña[indice].type = 'password';
+                this.classList.remove('bx-show');
+                this.classList.add('bx-hide');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

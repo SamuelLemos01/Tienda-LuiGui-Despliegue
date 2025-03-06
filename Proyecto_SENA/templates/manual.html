@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}<link rel="stylesheet" href="{% static 'css/manual.css' %}">{% endblock %}
+
+{% block content %}
+    <section class="contenedor">
+        <h1>Manual de Usuario</h1>
+    </section>
+
+    <article class="introduccion">
+        <h2 class="titulo-introduccion">Introducción:</h2>
+        <p>El presente manual que se dara a conocer, se realizo con la finalidad de dar a conocer de manera detallada y sencilla la estructura deL sito web de la Tienda LuiGui, para que cualquier usuario pueda sacar el máximo provecho de el mismo. El sitio fue diseñado para que cada quien pueda, de forma interactiva, pueda visualizar y comprar productos de forma interna en el sitio.</p>
+    </article>
+
+    <article class="objetivo">
+        <h2 class="titulo-objetivo">Objetivo:</h2>
+        <p>Brindar una descripción clara y detallada sobre el funcionamiento y uso de los distintos elementos de la página web para guiar al usuario en la búsqueda de información.</p>
+    </article>
+
+    <section class="tabla-contenido">
+        <h2 class="titulo-contenido">Tabla de contenido:</h2>
+        <ul class="lista-contenido">
+            <ol><a href="#principal">Pagina principal</a></ol>
+            <ol><a href="#menu">Menu de navegación</a></ol>
+            <ol><a href="#registrarse">Registrarse y Iniciar sesión</a></ol>
+            <ol><a href="#perfil-usuario">Perfil de usuario</a></ol>
+            <ol><a href="#compra">Compra de productos</a></ol>
+            <ol><a href="#carro">Carrito de compras</a></ol>
+            <ol><a href="#pasarela-pago">Pasarela de pago</a></ol>
+            <ol><a href="#confirmacion-email">Cofirmación de compra</a></ol>
+            <ol><a href="#responsive">Adaptación a otros dispositivos</a></ol>
+            <ol><a href="#admin">Panel de administración</a></ol>
+        </ul>
+    </section>
+
+    <section class="pagina-principal">
+        <h2 class="titulo-principal" id="principal">Pagina principal</h2>
+        <p>Para comenzar con este manual de usuario, lo primero que mostraremos son las interfaces de cada una de las páginas del sitio. En este caso mostraremos la página principal, el home. En este home, en este home, contaremos con 4 secciones, estas son: bienvenida, valores, ubicación y un formulario de contacto. Este apartado cuenta con estas 4 secciones sin contar la barra de navegación y el pie de página o footer que se encuentran en todas las páginas.</p>
+        <div class="imagenes-principal">
+            <div>
+                <img src="{% static 'images/manual/pagina-principal1.png' %}" alt="">
+                <span>imagen #1 - Bienvenida</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/imagen-principal2.2.png' %}" alt="">
+                <span>imagen #2 - Sección de valores</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/imagen-principal3.3.png' %}" alt="">
+                <span>imagen #3 - Sección de ubicación</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/imagen-principal4.4.png' %}" alt="">
+                <span>imagen #4 - Sección de contactenos</span>
+            </div>
+        </div>
+        <p>Ahora, en esta parte del sitio, nos encontramos con diversas funcionalidades, tan solo en la parte de bienvenida encontraremos un video el cual, dando clic, se reproducirá y conoceremos a la señora Mónica Parra, la cual es la dueña del establecimiento. También encontraremos un botón con el mensaje de "Desliza", si lo oprimimos este nos dirigirá a la sección de "Nuestros valores".</p>
+        <div class="imagenes-principal-2">
+            <img src="{% static 'images/manual/explicación-principal1.PNG' %}" alt="">
+        </div>
+        <p>En caso de que el usuario haya decidido no deslizar, podrá hacerlo manualmente, ya que en la parte inferior de la pantalla encontrará una barra de desplazamiento, la cual podrá mover con el mouse o con el dedo si se encuentra en un dispositivo móvil. Pero, en todo caso, llegará a la sección de "Nuestros valores", esta sección no tiene mucha interactividad con el usuario, tan solo tiene animaciones en las imágenes y un botón en la mitad que, al oprimir, nos dirigirá a la siguiente sección, la de "Ubícanos". En esta sección de "Ubícanos", el usuario podrá interactuar con el mapa, el cual está sacado de Google Maps, por lo que podrá arrastrar el mapa para ubicarse también. En esta parte también contamos con un pequeño apartado de detalles, en los cuales informamos dónde está la tienda, a qué hora abre, etc. Y, por último, nos encontraremos con el botón de "Contáctanos", el cual, si lo oprimimos, nos llevará a un formulario para poder enviar un mensaje a la tienda.</p>
+        <div class="imagenes-principal-2">
+            <img src="{% static 'images/manual/explicación-principal2.PNG' %}" alt="">
+        </div>
+        <p>Ahora, si hemos decidido dirigirnos al formulario de contacto, tenemos que tener claro que en la parte izquierda nos dice para qué podemos usar ese formulario, en este caso específico el usuario no debe tener cuenta ni haber iniciado sesión. En este formulario, a través de una pequeña cantidad de datos, los usuarios pueden contactar con la tienda ya sea para realizar una consulta, queja, ayuda, etc.</p>
+        <div class="imagenes-principal-2">
+            <img src="{% static 'images/manual/explicación-principal3.PNG' %}" alt="">
+        </div>
+    </section>
+
+    <section class="menu-navegacion" id="menu">
+        <h2 class="titulo-menu">Menu de navegación</h2>
+        <p>El menú de navegación de este sitio puede ser de dos tipos. El primer menú es el que el usuario observa al no estar registrado o haber iniciado sesión, y el segundo es cuando el usuario ya ha iniciado sesión.</p>
+        <div class="imagenes-menu">
+            <div>
+                <img src="{% static 'images/manual/menu-sin-login.png' %}" alt="">
+                <span>1. Menu sin iniciar sesión</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/menu-con-login.png' %}" alt="">
+                <span>2. Menu con usuario iniciado</span>
+            </div>
+        </div>
+        <p>Para poder seguir explicando la funcionalidad de este, explicaremos la opcion de menu con un usuario que haya iniciado sesión ya que es el que tiene todo el menu disponible.
+        Empezando con este menu, en la parte izquierda tenemos el logo de la tienda, si le damos clic a este logo este nos dirigira a la parte del inicio de la pagina principal.
+        </p>
+        <div class="imagenes-menu">
+            <img src="{% static 'images/manual/logo-menu.PNG' %}" alt="">
+        </div>
+        <p>En el centro del menú, contamos con 4 links. El primero de ellos es un link de inicio, el cual también nos llevará a la primera parte de la página principal. El segundo link es el del Catálogo; en este podremos encontrar todos los productos disponibles que hay en la tienda. El tercer link es el de Galería; en este podremos observar imágenes de la tienda, como para exponer un poco más lo que es este negocio. Y, por último, tenemos el link del historial; esta es una de las opciones que aparece cuando el usuario está logueado, en la cual encontraremos un historial de productos que el usuario haya comprado.
+        </p>    
+        <div class="imagenes-menu">
+            <img src="{% static 'images/manual/links-menu.PNG' %}" alt="">
+        </div>
+        <p>
+            Por último, en la parte derecha del menú, contamos con 3 iconos. El primero es el icono del usuario, que tendrá dos funcionalidades dependiendo de si el usuario ha iniciado sesión o no: si el usuario no se ha logueado, este icono, al darle clic, redirigirá al formulario de inicio de sesión; si el usuario ya se ha logueado, la funcionalidad del icono cambiará para redirigirlo a un perfil de usuario, en el cual podrá observar sus datos personales. El segundo icono es el de cerrar sesión; este icono solo aparece cuando el usuario ha iniciado sesión previamente; dándole clic, cerrará la sesión del usuario. Y, por último, tenemos el del carrito de compras, en el cual podremos visualizar todos los productos que hayamos metido al carrito desde el Catálogo.
+        </p>
+        <div class="imagenes-menu">
+            <img src="{% static 'images/manual/iconos.menu.PNG' %}" alt="">
+        </div>
+    </section>
+
+    <section class="registro">
+        <h2 class="titulo-registro" id="registrarse">Registrarse y Iniciar sesión</h2>
+        <p>Para poder tener una mayor oportunidad de utilizar el sitio, lo más recomendable es que el usuario se registre para que pueda utilizar todas las funciones del programa. Para esto, contamos con un formulario de registro en el que se solicitan datos básicos pero necesarios para el programa, como: un nombre de usuario, teléfono, correo, dirección y una contraseña. La mayoría de estos datos servirán para iniciar sesión y obtener más rápido los datos del envío del usuario. Luego de registrarnos, nos aparecerá un mensaje que dirá "Registro exitoso", luego no redirigirá al inicio de sesión y solo tendremos que colocar nuestro nombre de usuario y contraseña. </p>
+        <div class="imagenes-registro">
+            <div>
+                <img src="{% static 'images/manual/inicio-sesion.png' %}" alt="">
+                <span>1. Formulario de registro</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/registro-sesion.png' %}" alt="">
+                <span>2. Inicio de sesión</span>
+            </div>
+        </div>
+        <p>Al hacer clic en "Olvidaste tu contraseña", aparecerá la opción para cambiar la contraseña con el correo que hayas registrado. Después de escribir el correo, recibirás un enlace para el cambio de contraseña. Al hacer clic en el enlace, pasarás a la siguiente sección, donde podrás escribir la nueva contraseña.</p>
+        <div class="imagenes-registro-2">
+            <div>
+                <img src="{% static 'images/manual/restablecer-contraseña.png' %}" alt="">
+                <span>1. alterna del cambio de contraseña</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/enlace-correo.png' %}" alt="">
+                <span>2. Alterna del enlace del correo</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/nueva-contraseña.png' %}" alt="">
+                <span>3.Alterna de la nueva contraseña </span>
+            </div>
+        </div>
+    </section>
+
+    <section class="perfil">
+        <h2 class="titulo-perfil" id="perfil-usuario">Perfil del usuario</h2>
+        <p>En este sitio contamos con un perfil del usuario para que esta pueda visualizar sus datos de envio.</p>
+        <div class="imagen-perfil">
+            <img src="{% static 'images/manual/perfil-usuario.png' %}" alt="">
+            <span>1. Perfil de usuario</span>
+        </div>    
+        <p>Como podemos ver en la imagen, este perfil solo nos mostrará los tres datos principales para el envío: correo, teléfono y dirección. Esto, ya que más adelante los traeremos para la pasarela de pago. Este perfil también cuenta con dos botones, los cuales tienen su función principal dentro del programa.</p>
+
+        <p>Comenzando con el primer botón ubicado en la parte izquierda, si el usuario desea cambiar o actualizar su contraseña, lo podrá realizar sin problema desde este formulario. Claramente, y por cuestiones de seguridad, si se desea actualizar la contraseña, necesitaremos confirmar la contraseña actual que tenemos; posteriormente, escogemos nuestra nueva contraseña y la confirmamos para mayor seguridad. Una vez realizado el cambio, el sitio nos cerrará la sesión actual y nos redirigirá al inicio de sesión para confirmar que el cambio de contraseña fue exitoso.</p>
+        <div class="imagen-explicacion">
+            <img src="{% static 'images/manual/explicación-perfil.PNG' %}" alt="">
+        </div>
+        <p>El segundo botón, que encontramos en la parte derecha, es el de eliminar cuenta. Con este botón debemos tener más cuidado, ya que al darle clic nos mandará una alerta que nos preguntará si de verdad estamos seguros de esta decisión. Si aceptamos, la cuenta se borrará de forma permanente; esto borrará todos los datos de compras que hayamos hecho y también se eliminará toda la información que tenga el sitio del usuario.</p>
+        <div class="imagen-explicacion">
+            <img src="{% static 'images/manual/explicación-perfil2.PNG' %}" alt="">
+        </div>
+    </section>
+
+    <section class="compra">
+        <h2 class="titulo-compra" id="compra">Compra de productos</h2>
+        <p>Para acceder al apartado de comprar los productos, lo podemos hacer dirigiéndonos al enlace de "Catálogo" en el menú de navegación. Aquí lo que encontraremos serán los productos que nos ofrece la tienda, además de una serie de filtros para facilitar más la búsqueda de los productos y una paginación en la parte de abajo. Esta se organiza en 12 productos por página, y la cantidad de páginas depende de los productos que agregue el propietario de la tienda.</p>
+        <div class="imagenes-compra">
+            <img src="{% static 'images/manual/catalogo.png' %}" alt="">
+        </div>
+        <p>Ahora, si probamos darle al botón de "Comprar" de alguno de los productos que tenga unidades disponibles (si el producto no tiene unidades disponibles en el momento, el programa no dejará comprar ese producto hasta que se actualice el inventario), una vez le demos "Comprar", este nos abrirá una modal. Dicha modal tendrá la imagen del producto, el nombre, la descripción, la cantidad de unidades que vamos a llevar y el botón de "Agregar al carrito". Cabe aclarar que este botón puede cambiar dependiendo de si el usuario ya inició sesión o no; si ya ha iniciado sesión, lo dejará agregar al carrito sin problema y se cerrará la modal, y si no ha iniciado sesión, el botón lo redirigirá al login para que realice el debido proceso.</p>
+        <div class="imagenes-compra2">
+            <img src="{% static 'images/manual/producto_para_comprar.png' %}" alt="">
+            <span>Producto de catálogo</span>
+        </div>
+        <div class="imagenes-compra3">
+            <div>
+                <img src="{% static 'images/manual/modal_producto_nologueado.png' %}" alt="">
+                <span>1. Modal producto de usuario no logueado</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/modal_producto_logueado.png' %}" alt="">
+                <span>2. Modal de producto de usuario logueado</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="carrito">
+        <h2 class="titulo-carrito" id="carro">Carrito de compras</h2>
+        <p>Una vez hayamos agregado los productos que queremos comprar desde el catálogo, nos encontraremos estos productos en el carrito de compras. Este carrito tiene dos paneles: el primero lo encontramos en la parte izquierda, el cual carga cada uno de los productos que agregamos con su respectiva imagen, nombre, unidades, precio y un ícono de eliminar por si ya no queremos el producto. Esto se repetirá con todos los productos que agreguemos. El segundo panel, el de la derecha, contiene el resumen de la compra en términos monetarios. Este carrito, como cualquiera, hace automáticamente la suma de todos los productos y, a esto, también le suma el coste del domicilio. Por último, en este panel también encontramos dos botones: el primero para finalizar la compra, el cual nos llevará a la pasarela de pago, y el segundo para seguir comprando, el cual nos dirigirá de nuevo al catálogo por si se nos olvidó algún producto por comprar.</p>
+        <img src="{% static 'images/manual/carrito.PNG' %}" alt="">
+        <p>Existe otra opción de este carrito, y es cuando este se encuentra vacío. Al no tener productos el carrito, si entramos a este, lo que nos aparecerá será un mensaje que nos pedirá que agreguemos productos desde el catálogo y, debajo de este mensaje, un botón que nos redirigirá al catálogo.</p>
+        <img src="{% static 'images/manual/carrito_vacio.png' %}" alt="">
+    </section>
+
+    <section class="pasarela">
+        <h2 class="titulo-pasarela"  id="pasarela-pago">Pasarela de Pago</h2>
+        <p>Una vez que ya tengamos definidos los productos que vayamos a comprar en el carrito, podemos oprimir la opción de proceder al pago. Esto redirigirá a la pasarela de pago, en la que encontramos varios campos: algunos que tendremos que llenar y otros en los que ya contamos con nuestra información.
+
+            Empezando con esta pasarela, en la parte izquierda podemos ver cómo nos pide nuestro nombre y apellido para tener una mayor cercanía con el cliente; luego, encontraremos datos que ya están completados, como la dirección, el teléfono y el correo, ya que intentamos ahorrar trabajo al usuario, pues, al haber llenado estos campos en el registro, los enviamos y autocompletamos.
+            
+            Luego, en la parte derecha, el primer campo es una lista que contiene los dos municipios donde llegan los domicilios; estos son: Agrado y Pital. Después, seleccionamos el medio de pago que más le convenga al cliente, ya sea Nequi, Daviplata o pago contra entrega. Por último, encontramos nuevamente un resumen de la compra, con el total a pagar y un botón con el mensaje de "Proceder al pedido". Si le damos clic a este botón, una vez hayamos llenado todos los campos, el programa nos mostrará una alerta avisando que el pedido fue exitoso. En este punto, tendríamos que revisar nuestro correo para ver los detalles de la compra y más.</p>
+        <div class="imagenes-pasarela">
+            <div>
+                <img src="{% static 'images/manual/pasarela.PNG' %}" alt="">
+                <span>1. Formulario de compra</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/confiramacion-pedido.PNG' %}" alt="">
+                <span>2. Confrimación de pedido exitoso</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="pasarela">
+        <h2 class="titulo-pasarela"  id="pasarela-pago">Historial</h2>
+        <p>Una vez que tengamos el pedido de los productos, pasaremos al historial de productos, donde podremos encontrar los productos que hemos comprado. En esa sección, encontraremos la cantidad de órdenes que se han realizado, y cada orden contará con la descripción de los productos que hemos encargado. La descripción incluirá el nombre del producto, la cantidad de productos, el precio de cada uno y el total.</p>
+        <div class="imagenes-pasarela">
+            <div>
+                <img src="{% static 'images/manual/historial-producto.png' %}" alt="">
+                <span>1. Historial de compra exitoso</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="confirmacion">
+        <h2 class="titulo-confirmacion" id="confirmacion-email">Confirmación de compra</h2>
+        <p>Una vez hayamos realizado la compra a través de la pasarela de pago, tendremos que revisar el correo con el que nos registramos en el sitio. Esto es porque a dicho correo nos llegará una especie de factura que, a la vez, contiene los detalles de nuestro pedido. En este correo encontramos, primero, un saludo al cliente; luego, los datos de envío junto con el método de pago; seguido de ello, los productos que compramos junto con la cantidad de unidades; y, por último, el total a pagar. Con todo esto, un mensaje al final nos indica que se contactarán con nosotros para finalizar el envío, ya que la orden llegará a la tienda y ésta se encargará de hacernos llegar el pedido a nuestra dirección de envío registrada.</p>
+        <div class="imagen">
+            <img src="{% static 'images/manual/confirmacion.PNG' %}" alt="">
+        </div>
+    </section>
+
+    <section class="responsive">
+        <h2 class="titulo-responsive" id="responsive">Adaptación a otros dispositivos</h2>
+        <p>Como en cualquier sitio web, este también se adapta si es visto desde un celular, tablet, portátil o computador de escritorio. Está hecho para que, según las diferentes medidas de cada dispositivo, se adapte a esa pantalla. A continuación se mostrarán algunas imágenes de cómo se ve el sitio en celular, tablet y portátil en algunos sitios del programa.</p>
+        <div class="responsive-movil">
+            <div>
+                <img src="{% static 'images/manual/Bienvenida-celular.png'' %}" alt="">
+                <span>1. Bienvenida desde movil</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/catalogo-movil.png' %}" alt="">
+                <span>2. Catálogo desde movil</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/carrito-movil.png' %}" alt="">
+                <span>3. Carrito desde movil</span>
+            </div>
+        </div>
+        <div class="responsive-tablet">
+            <div>
+                <img src="{% static 'images/manual/Bienvenida-Tablet.png' %}" alt="">
+                <span>1. Bienvenida desde tablet</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/catalogo-tablet.png' %}" alt="">
+                <span>2. Catálogo desde tablet</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/carrito-tablet.png' %}" alt="">
+                <span>3. Carrito desde tablet</span>
+            </div>
+        </div>
+        <div class="responsive-portatil">
+            <div>
+                <img src="{% static 'images/manual/Bienvenida-portatil.png' %}" alt="">
+                <span>1. Bienvenida desde portatil</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/catalogo-portatil.png' %}" alt="">
+                <span>2. Catálogo desde portatil</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/carrito-portail.png' %}" alt="">
+                <span>3. Carrito desde portatil</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="admin">
+        <h2 class="titulo-admin" id="admin">Panel de administración</h2>
+        <p>Entrando a la última parte de este manual, tenemos el panel de administración. A este panel solo puede acceder únicamente el dueño de la tienda o cualquiera que tenga un superuser creado. Para acceder a este panel, podemos hacerlo desde la URL de nuestro navegador, escribiendo, después de la URL del sitio, y agregando /admin, y ya debería aparecer el login para entrar al panel de administrador.</p>
+        <img src="{% static 'images/manual/admin-login.png' %}" alt="">
+        <p>Una vez hayamos iniciado sesión, nos tendremos que centrar en las tablas que dicen: Contactos, Inventarios, Pedidos, Perfiles de usuario y Productos. Todo esto, ya que aquí es donde podemos ver toda la administración del sitio.</p>
+        <img src="{% static 'images/manual/admin-tablas.png' %}" alt="">
+        <p>Entrando a la tabla de Contactos, podremos encontrar los mensajes que nos dejan nuestros usuarios desde el formulario de "Contáctenos"; aquí podemos ver los datos de quien lo hizo, más el mensaje.</p>
+        <img src="{% static 'images/manual/admin-contacto.png' %}" alt="">
+        <p>Luego, si vamos a la tabla de Inventario, encontraremos que aquí es donde registramos la cantidad de unidades que puede tener un producto. Al momento de crear un producto, este aparece aquí y el administrador podrá sumarle o quitarle unidades.</p>
+        <img src="{% static 'images/manual/admin-inventario.png' %}" alt="">
+        <p>Ahora, entrando en la tabla de Pedidos, observamos que aquí es donde llegan todas las órdenes una vez que el usuario las finaliza en la pasarela de pago. Si damos clic al ID de cada orden, podremos obtener la información completa de los productos que llevó y a donde tiene que llegar.
+        </p>
+        <img src="{% static 'images/manual/admin-pedidos.png' %}" alt="">
+        <img src="{% static 'images/manual/admin-pedidos-mas-informacion.png' %}" alt="">
+        <p>Seguimos con la tabla de Perfiles de usuario; como su nombre indica, encontraremos todos los perfiles que están registrados en el sitio, junto con la información de envío de cada usuario.</p>
+        <img src="{% static 'images/manual/admin-perfiles.png' %}" alt="">
+        <p>Por último, pasamos a la parte del admin más dinámica. Esta es la tabla de Productos; desde aquí, el administrador del sitio podrá agregar o quitar productos como desee. En la tabla vemos los productos que, en este momento, están subidos en el sitio; sin embargo, si queremos subir un producto nuevo, lo que tenemos que hacer es darle a "Añadir producto", que aparece a la derecha de la tabla. Luego, ponemos el nombre del producto, la descripción, el precio, la categoría y subimos una imagen del producto, guardamos la información y este se sube al catálogo automáticamente. Lo único que faltaría sería subirle las unidades en la tabla de inventario.</p>
+        <img src="{% static 'images/manual/admin-productos.png' %}" alt="">
+        <img src="{% static 'images/manual/admin-añadir-productos.png' %}" alt="">
+    </section>
+
+{% endblock %}

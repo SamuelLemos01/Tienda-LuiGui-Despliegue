@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/catalogo.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="contenedor">
+    <h1>Catálogo de productos</h1>
+    <a href="#categorias" class="btn-mirar">Mirar ahora <i class="ri-arrow-down-line"></i></a>
+</section>
+
+<div class="productos">
+    <section class="menu-catalogo">
+        <h2 class="titulo-catalogo" id="categorias">Categorias</h2>
+        <div class="botones-catalogo mt-4">
+            <button class="btn-verde todos active">Todos</button>
+            <button class="btn-verde aseo">Aseo</button>
+            <button class="btn-verde comestibles">Comestibles</button>
+            <button class="btn-verde canastafamiliar">Canasta Familiar</button>
+            <button class="btn-verde papeleria">Papelería</button>
+            
+            <form class="d-flex" role="search" method="GET">
+                <div class="input-group">
+                    <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search" 
+                           id="searchInput" name="buscar" value="{{request.GET.buscar}}">
+                    <button class="btn btn-outline-success" type="submit" id="searchButton">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
+                </div>
+            </form>       
+        </div>
+
+        <div class="productos-grid" id="productos-container">
+            <!-- Los productos se generarán dinámicamente con JavaScript -->
+        </div>
+
+        <!-- Paginación -->
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center" id="pagination">
+                <!-- La paginación se generará dinámicamente -->
+            </ul>
+        </nav>
+    </section>
+</div>
+
+<!-- Modal del producto -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!--imagen -->
+                    <div class="col-md-6">
+                        <img src="" alt="Producto" class="img-fluid product-modal-image" id="productImage">
+                    </div>
+                    <!--detalles -->
+                    <div class="col-md-6">
+                        <h4 id="productTitle"></h4>
+                        <p id="productDescription" class="mb-4"></p>
+                        <p class="fw-bold" id="productPrice"></p>
+                        <!-- cantidad -->
+                        <div class="quantity-selector mb-3">
+                            <label for="quantity" class="form-label">Cantidad:</label>
+                            <div class="input-group" style="width: 150px;">
+                                <button class="btn btn-outline-secondary" type="button" id="decrementBtn">-</button>
+                                <input type="number" class="form-control text-center" id="quantity" value="1" min="1">
+                                <button class="btn btn-outline-secondary" type="button" id="incrementBtn">+</button>
+                            </div>
+                        </div>
+                    {% if user.is_authenticated %}
+                        <button type="button" class="btn btn-success w-100 mb-2" id="addToCartBtn">
+                            Agregar al carrito
+                        </button>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-success w-100 mb-2">
+                            Iniciar sesión para comprar
+                        </a>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block script %}
+<script src="{% static 'js/catalogo.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
+
+{% endblock %}

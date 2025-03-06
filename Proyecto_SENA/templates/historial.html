@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/historial.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="contenedor-historial pt-5">
+    <h2 class="titulo-historial">Historial de Compras</h2>
+    
+    <div class="historial-grid" data-aos="fade-up">
+        <div class="ordenes-historial">
+            <div class="orden-lista" id="ordenes-container">
+                {% if page_obj %}
+                    {% for orden in page_obj %}
+                        <div class="orden-item">
+                            <div class="orden-header">
+                                <h3>Orden {{ orden.numero_pedido }}</h3>
+                                <span class="orden-fecha">{{ orden.fecha_compra|date:"d/m/Y" }}</span>
+                            </div>
+                            <div class="orden-detalles">
+                                <div class="detalle-linea">
+                                    <span>Número de productos:</span>
+                                    <span>{{ orden.numero_productos }}</span>
+                                </div>
+                                
+                                <!-- Listado de productos de la orden -->
+                                <div class="productos-historial">
+                                    <h4>Productos comprados:</h4>
+                                    <div class="productos-lista">
+                                        {% for producto_pedido in orden.pedido.items.all %}
+                                            <div class="producto-item">
+                                                <div class="producto-imagen">
+                                                    <img src="{{ producto_pedido.producto.imagen.url }}" alt="{{ producto_pedido.producto.nombre }}">
+                                                </div>
+                                                <div class="producto-info">
+                                                    <h5>{{ producto_pedido.producto.nombre }}</h5>
+                                                    <div class="producto-detalles">
+                                                        <p><span>Cantidad:</span> {{ producto_pedido.cantidad }}</p>
+                                                        <p><span>Precio unitario:</span> ${{ producto_pedido.precio_unitario }}</p>
+                                                        <p><span>Subtotal:</span> ${{ producto_pedido.subtotal }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                
+                                <div class="detalle-linea total">
+                                    <span>Total:</span>
+                                    <span>${{ orden.compra_total }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                    <div class="paginacion">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; primera</a>
+                                <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                            {% endif %}
+                            
+                            <span class="current">
+                                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                            </span>
+                            
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                {% else %}
+                    <div class="historial-vacio">
+                        <i class="ri-history-line"></i>
+                        <p>No tienes compras realizadas</p>
+                        <a href="{% url 'catalogo' %}" class="btn-ir-catalogo">Ir al catálogo</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

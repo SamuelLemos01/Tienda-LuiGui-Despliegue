@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+
+<div class="section">
+    <div class="container">
+        <div class="wrapper confirmacion-wrapper">
+            <div class="form-header">
+                <div class="titles">
+                    <div class="title-login">Nueva contraseña</div>
+                </div>
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="input-box">
+                    <input type="password" class="input-field" id="log-email" name="password" required>
+                    <label for="log-email" class="label">Nueva contraseña:</label>
+                    <i class='bx bx-envelope icon'></i>
+                </div>
+                <div class="input-box">
+                    <button type="submit" class="btn-submit" id="SignInBtn">Guardar<i
+                            class='bx bx-log-in'></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            padding: 20px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .productos {
+            margin: 20px 0;
+        }
+
+        .total {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .producto-item {
+            padding: 5px 0;
+        }
+
+        .detalles {
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Confirmación de Pedido - Tienda Luigui</h2>
+        </div>
+
+        <p>Hola {{nombre}} {{apellido}},</p>
+        <p>Gracias por tu pedido. Aquí están los detalles de tu compra:</p>
+
+        <div class="detalles">
+            <h3>Datos de envío:</h3>
+            <p>Dirección: {{direccion}}</p>
+            <p>Teléfono: {{telefono}}</p>
+            <p>Email: {{email}}</p>
+            <p>Método de pago: {{metodo_pago}}</p>
+        </div>
+
+        <div class="productos">
+            <h3>Productos:</h3>
+            {% for producto in productos %}
+            <div class="producto-item">
+                <p>
+                    - {{producto.nombre}} x {{producto.cantidad}} =
+                    ${{producto.subtotal}}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="detalles">
+            <p>Subtotal: ${{subtotal}}</p>
+            <p>Envío: ${{envio}}</p>
+            <p class="total">Total: ${{total}}</p>
+        </div>
+
+        <p>Te contactaremos pronto para finalizar el envío.</p>
+    </div>
+</body>
+
+</html>

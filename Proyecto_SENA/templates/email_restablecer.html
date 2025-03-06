@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="section">
+    <div class="container">
+        {% if messages %} <!--Solo se usa si hay mensajes de parte del views-->
+        <div class="messages-container"
+            style="position: fixed; top: 20px; right: 20px; z-index: 1000; width: 300px;">
+            {% for message in messages %} <!--Bucle de django que recorre los mensajes-->
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show"
+                role="alert" style="margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                {{ message }} <!--Muestra el error-->
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="wrapper restablecer-wrapper">
+            <div class="form-header">
+                <div class="titles">
+                    <div class="title-login">Restablecer contraseña</div>
+                </div>
+            </div>
+            <form method="POST" action="{% url 'restablecer' %}">
+                {% csrf_token %}
+                <div class="input-box">
+                    <input type="email" class="input-field" id="log-email" name="email" required>
+                    <label for="log-email" class="label">Correo Registrado:</label>
+                    <i class='bx bx-envelope icon'></i>
+                </div>
+                <div class="input-box">
+                    <button type="submit" class="btn-submit" id="SignInBtn">Enviar enlace <i
+                            class='bx bx-log-in'></i></button>
+                </div>
+                <div class="switch-form">
+                    <span>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesión</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

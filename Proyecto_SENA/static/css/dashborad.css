@@ -1,0 +1,8 @@
+.dashboard {
+    min-height: 83vh;
+    height: 100%;
+    align-content: center;
+}
+.dashboard .password-form {
+    display: none;
+}
