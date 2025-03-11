@@ -8,65 +8,70 @@
 
 {% block content %}
 <div class="pasarela-contenedor">
-    <h2 class="titulo-pasarela">Datos de envío</h2>  
+    <h2 class="titulo-pasarela">Proceso de compra</h2>
+
+    <!-- Indicadores de Pasos -->
+    <div class="pasos-indicadores">
+        <div class="paso-indicador activo">
+            <span class="numero-paso">1</span>
+            <span class="texto-paso">Envío</span>
+        </div>
+        <div class="linea-progreso"></div>
+        <div class="paso-indicador">
+            <span class="numero-paso">2</span>
+            <span class="texto-paso">Pago</span>
+        </div>
+        <div class="linea-progreso"></div>
+        <div class="paso-indicador">
+            <span class="numero-paso">3</span>
+            <span class="texto-paso">Confirmar</span>
+        </div>
+    </div>
+
     <div class="pasarela-card">
         <form method="POST" action="{% url 'MessagePasarela' %}" id="form-pasarela" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="carrito_data" id="carrito_data">
             
-            <div class="form-grid">
-                <div class="columna-izquierda">
-                    <div class="form-group">
-                        <label>Nombre:</label>
-                        {{ form.nombre }}
+            <div id="paso-1" class="paso-container">
+                <h3 class="paso-titulo">Datos de envío</h3>
+                <div class="form-grid">
+                    <div class="columna-izquierda">
+                        <div class="form-group">
+                            <label>Nombre:</label>
+                            {{ form.nombre }}
+                        </div>
+
+                        <div class="form-group">
+                            <label>Apellido:</label>
+                            {{ form.apellido }}
+                        </div>
+
+                        <div class="form-group">
+                            <label>Correo:</label>
+                            {{ form.email }}
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Apellido:</label>
-                        {{ form.apellido }}
-                    </div>
+                    <div class="columna-derecha">
+                        <div class="form-group">
+                            <label>Dirección:</label>
+                            {{ form.direccion }}
+                        </div>
 
-                    <div class="form-group">
-                        <label>Dirección:</label>
-                        {{ form.direccion }}
-                    </div>
+                        <div class="form-group">
+                            <label>Teléfono:</label>
+                            {{ form.telefono }}
+                        </div>
 
-                    <div class="form-group">
-                        <label>Teléfono:</label>
-                        {{ form.telefono }}
-                    </div>
-
-                    <div class="form-group">
-                        <label>Correo:</label>
-                        {{ form.email }}
+                        <div class="form-group">
+                            <label>Municipio:</label>
+                            {{ form.municipio }}
+                        </div>
                     </div>
                 </div>
-
-                <!-- Columna derecha -->
-                <div class="columna-derecha">
-                    <div class="form-group">
-                        <label>Municipio:</label>
-                        {{ form.municipio }}
-                    </div>
-
-                    <div class="form-group payment-methods">
-                        <label>Modo de pago:</label>
-                        <div class="modo-pago horizontal-payment-methods">
-                            {% for radio in form.metodo_pago %}
-                            <div class="form-check payment-option">
-                                {{ radio }}
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-
-                    <div class="form-group mt-4">
-                        <label><strong>Enviar comprobante:</strong></label>
-                        <div class="file-upload-container">
-                            {{ form.comprobante_pago }}
-                        </div>
-                    </div>
-
+                
+                <div class="resumen-pedido-container">
                     <div class="total-section">
                         <div class="total-row">
                             <span>Total</span>
@@ -74,7 +79,76 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-proceder">Proceder al pedido</button>
+                    <button type="button" class="btn-siguiente btn-ancho-completo">Continuar al pago</button>
+                </div>
+            </div>
+
+            <div id="paso-2" class="paso-container d-none">
+                <h3 class="paso-titulo">Método de pago</h3>
+                <div class="metodos-pago-container">
+                    <div class="form-group payment-methods">
+                        <label>Selecciona tu método de pago:</label>
+                        <div class="opciones-pago">
+                            {% for radio in form.metodo_pago %}
+                            <div class="opcion-pago">
+                                {{ radio }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="botones-navegacion">
+                        <button type="button" class="btn-anterior">Volver a envío</button>
+                        <button type="button" class="btn-siguiente">Continuar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="paso-3" class="paso-container d-none">
+                <h3 class="paso-titulo">Confirmar pedido</h3>
+                
+                <div class="confirmacion-grid">
+                    <div class="columna-izquierda-confirmar">
+                        <div id="qr-container-paso3" class="qr-container">
+                            <h4 class="qr-titulo">Escanea el QR para realizar tu pago</h4>
+                            <img id="qr-bancolombia-paso3" src="{% static 'images/QR-DaviPlata.jpg' %}" class="qr-image-paso3 d-none" alt="QR Bancolombia">
+                            <img id="qr-nequi-paso3" src="{% static 'images/QR-Nequi.jpg' %}" class="qr-image-paso3 d-none" alt="QR Nequi">
+                            <img id="qr-daviplata-paso3" src="{% static 'images/QR-DaviPlata.jpg' %}" class="qr-image-paso3 d-none" alt="QR DaviPlata">
+                        </div>
+                    </div>
+                    
+                    <div class="columna-derecha-confirmar">
+                        <p class="qr-instruccion">Después de realizar el pago, adjunta el comprobante</p>
+                        
+                        <div id="comprobante-container" class="comprobante-container d-none">
+                            <div class="form-group mt-4">
+                                <label><strong>Adjunta tu comprobante de pago:</strong></label>
+                                <div class="file-upload-container">
+                                    {{ form.comprobante_pago }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="contraentrega-container" class="comprobante-container d-none">
+                            <div class="contra-entrega-mensaje">
+                                <i class="fas fa-truck"></i>
+                                <p>Pagarás cuando recibas tu pedido. No es necesario adjuntar comprobante.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="total-section resumen-final-container">
+                            <!-- El resumen del pedido se insertará aquí mediante JS -->
+                            <div class="total-row">
+                                <span>Total</span>
+                                <span class="total" id="total-final">$0.00</span>
+                            </div>
+                        </div>
+
+                        <div class="botones-navegacion">
+                            <button type="button" class="btn-anterior">Volver a método de pago</button>
+                            <button type="submit" class="btn-proceder">Confirmar pedido</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
@@ -89,7 +163,6 @@
     </div>
 </div>
 
-<!-- Modal QR -->
 <div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -112,7 +185,6 @@
     </div>
 </div>
 
-<!-- Modal de éxito -->
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -133,8 +205,6 @@
         </div>
     </div>
 </div>
-
-<div id="qr-container" class="d-none"></div>
 
 <div style="display: none;">
     <img id="qr-bancolombia-ref" src="{% static 'img/qr-bancolombia.png' %}" alt="QR Bancolombia">

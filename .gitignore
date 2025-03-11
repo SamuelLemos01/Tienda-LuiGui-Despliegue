@@ -284,3 +284,5 @@ id/media/
 # Key HTTPS
 *.crt
 *.key
+
+*db.sqlite3

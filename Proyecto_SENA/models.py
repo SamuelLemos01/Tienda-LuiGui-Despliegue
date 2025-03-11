@@ -119,6 +119,7 @@ class Pedido(models.Model):
         ('bancolombia', 'Bancolombia'),
         ('nequi', 'Nequi'),
         ('daviplata', 'DaviPlata'),
+        ('contra-entrega', 'ContraEntrega'),
     ]
     
     ESTADOS_PEDIDO = [

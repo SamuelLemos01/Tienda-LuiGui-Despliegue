@@ -1,391 +1,431 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar todas las funciones principales
-    cargarDatosUsuario();
-    inicializarCarrito();
-    configurarMetodosPago();
-    configurarFormulario();
-    configurarInputArchivo();
+    // Referencias a elementos del DOM
+    const pasoIndicadores = document.querySelectorAll('.paso-indicador');
+    const pasoContainers = document.querySelectorAll('.paso-container');
+    const btnsSiguiente = document.querySelectorAll('.btn-siguiente');
+    const btnsAnterior = document.querySelectorAll('.btn-anterior');
+    const btnProceder = document.querySelector('.btn-proceder');
+    const formulario = document.getElementById('form-pasarela');
+    const loadingScreen = document.getElementById('loading-screen');
+    const qrModal = new bootstrap.Modal(document.getElementById('qrModal'));
+    const opcionesPago = document.querySelectorAll('input[name="metodo_pago"]');
+    const totalElement = document.getElementById('total');
+    const totalFinalElement = document.getElementById('total-final');
     
-    // Verificar que Bootstrap esté disponible y crear la modals
-    let qrModal;
-    let successModal;
-    try {
-        if (typeof bootstrap !== 'undefined') {
-            const qrModalElement = document.getElementById('qrModal');
-            if (qrModalElement) {
-                qrModal = new bootstrap.Modal(qrModalElement);
-                console.log('Modal QR inicializada correctamente');
-            } else {
-                console.error('Elemento modal QR no encontrado');
-            }
-            
-            const successModalElement = document.getElementById('successModal');
-            if (successModalElement) {
-                successModal = new bootstrap.Modal(successModalElement);
-                console.log('Modal de éxito inicializada correctamente');
-                
-                // Configurar el botón de "Ver mis pedidos"
-                const btnVerHistorial = document.getElementById('btn-ver-historial');
-                if (btnVerHistorial) {
-                    btnVerHistorial.addEventListener('click', function() {
-                        window.location.href = '/historial/';
-                    });
-                }
-            } else {
-                console.error('Elemento modal de éxito no encontrado');
-            }
-        } else {
-            console.error('Bootstrap no está disponible');
-        }
-    } catch (error) {
-        console.error('Error al inicializar modals:', error);
-    }
-    
-    // Cargar datos del usuario autenticado
-    function cargarDatosUsuario() {
-        fetch('/usuario-info/')
-            .then(response => response.json())
-            .then(data => {
-                if (data.usuario) {
-                    // Rellenar los campos con los datos del usuario
-                    const usuario = data.usuario;
-                    
-                    if (usuario.first_name) {
-                        document.getElementById('id_nombre').value = usuario.first_name;
-                    }
-                    
-                    if (usuario.last_name) {
-                        document.getElementById('id_apellido').value = usuario.last_name;
-                    }
-                    
-                    if (usuario.email) {
-                        document.getElementById('id_email').value = usuario.email;
-                    }
-                    
-                    if (usuario.numero) {
-                        document.getElementById('id_telefono').value = usuario.numero;
-                    }
-                    
-                    if (usuario.direccion) {
-                        document.getElementById('id_direccion').value = usuario.direccion;
-                    }
-                }
-            })
-            .catch(error => console.error('Error al cargar datos de usuario:', error));
-    }
-    
-    // Inicializar el carrito y actualizar el resumen
+    // Inicializar carrito desde localStorage
     function inicializarCarrito() {
-        const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
-        
-        // Actualizar el resumen del pedido con los productos
-        actualizarResumenPedido(carrito);
-        
-        // Actualizar el input hidden con los datos del carrito
-        document.getElementById('carrito_data').value = JSON.stringify(carrito);
-    }
-    
-    // Actualizar el resumen del pedido con los productos del carrito
-    function actualizarResumenPedido(carrito) {
-        const subtotal = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-        const envio = 3000;
-        const total = subtotal + envio;
-        
-        // Crear resumen de items
-        let resumenHTML = '<div class="resumen-pedido">';
-        
-        // Agregar cada item
-        carrito.forEach(item => {
-            resumenHTML += `
-                <div class="item-resumen">
-                    <div class="item-info">
-                        <span class="item-nombre">${item.nombre}</span>
-                        <span class="item-cantidad">x${item.cantidad}</span>
-                    </div>
-                    <span class="item-precio">$${(item.precio * item.cantidad).toLocaleString()}</span>
-                </div>
-            `;
-        });
-        
-        // Agregar subtotal y envío
-        resumenHTML += `
-            <div class="subtotal-row">
-                <span>Subtotal</span>
-                <span>$${subtotal.toLocaleString()}</span>
-            </div>
-            <div class="envio-row">
-                <span>Envío</span>
-                <span>$${envio.toLocaleString()}</span>
-            </div>
-        </div>`;
-        
-        // Encontrar el contenedor del total e insertar el resumen antes
-        const totalSection = document.querySelector('.total-section');
-        if (totalSection) {
-            const totalSpan = document.getElementById('total');
-            if (totalSpan) {
-                totalSpan.textContent = `$${total.toLocaleString()}`;
-            }
-            
-            // Remover resumen anterior si existe
-            const resumenExistente = totalSection.querySelector('.resumen-pedido');
-            if (resumenExistente) {
-                resumenExistente.remove();
-            }
-            
-            // Insertar nuevo resumen
-            totalSection.insertAdjacentHTML('afterbegin', resumenHTML);
-        }
-    }
-    
-    // Configurar la funcionalidad de los métodos de pago
-    function configurarMetodosPago() {
-        const metodosPago = document.querySelectorAll('input[name="metodo_pago"]');
-        
-        metodosPago.forEach(metodo => {
-            metodo.addEventListener('change', function() {
-                if (this.checked) {
-                    // Ocultar todas las imágenes QR en la modal
-                    document.querySelectorAll('.qr-image').forEach(img => {
-                        img.classList.add('d-none');
-                    });
-                    
-                    // Obtener el valor del método seleccionado
-                    const metodoSeleccionado = this.value;
-                    console.log('Método seleccionado:', metodoSeleccionado);
-                    
-                    // Mostrar la imagen QR correspondiente
-                    const qrImagen = document.getElementById(`qr-${metodoSeleccionado}`);
-                    
-                    if (qrImagen) {
-                        qrImagen.classList.remove('d-none');
-                        
-                        // Intentar mostrar la modal
-                        if (qrModal) {
-                            try {
-                                qrModal.show();
-                                console.log('Modal mostrada');
-                            } catch (error) {
-                                console.error('Error al mostrar modal:', error);
-                                // Fallback: mostrar las imágenes de QR directamente sin modal
-                                mostrarQRSinModal(metodoSeleccionado);
-                            }
-                        } else {
-                            console.error('Modal no inicializada, mostrando QR sin modal');
-                            // Fallback: mostrar las imágenes de QR directamente sin modal
-                            mostrarQRSinModal(metodoSeleccionado);
-                        }
-                    } else {
-                        console.error(`No se encontró la imagen QR para: ${metodoSeleccionado}`);
-                    }
-                }
-            });
-        });
-    }
-    
-    // Función alternativa para mostrar QR si la modal falla
-    function mostrarQRSinModal(metodoSeleccionado) {
-        // Esta función se usa como fallback si la modal de Bootstrap no funciona
-        // Asegurarse de que el contenedor de QR existe
-        let qrContainer = document.getElementById('qr-container');
-        
-        if (!qrContainer) {
-            // Crear el contenedor si no existe
-            qrContainer = document.createElement('div');
-            qrContainer.id = 'qr-container';
-            qrContainer.className = 'mt-3 p-3 border rounded text-center';
-            
-            // Agregar el contenedor después del formulario
-            const formPasarela = document.getElementById('form-pasarela');
-            formPasarela.parentNode.insertAdjacentElement('afterend', qrContainer);
-        }
-        
-        // Limpiar el contenedor
-        qrContainer.innerHTML = '';
-        
-        // Clonar la imagen QR y agregarla al contenedor
-        const qrImagen = document.getElementById(`qr-${metodoSeleccionado}`);
-        if (qrImagen) {
-            const qrClon = qrImagen.cloneNode(true);
-            qrClon.classList.remove('d-none');
-            
-            qrContainer.innerHTML = '<h4>Escanea para realizar tu pago</h4>';
-            qrContainer.appendChild(qrClon);
-            qrContainer.innerHTML += '<p class="mt-2">Escanea este código QR para completar tu pago y guarda el comprobante.</p>';
-        }
-    }
-    
-    // Funciones para la pantalla de carga
-    function mostrarPantallaCarga() {
-        const loadingScreen = document.getElementById('loading-screen');
-        if (loadingScreen) {
-            loadingScreen.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-    }
-    
-    function ocultarPantallaCarga() {
-        const loadingScreen = document.getElementById('loading-screen');
-        if (loadingScreen) {
-            loadingScreen.style.display = 'none';
-            document.body.style.overflow = '';
-        }
-    }
-    
-    // Mostrar modal de éxito
-    function mostrarModalExito(mensaje) {
-        // Actualizar el mensaje en la modal
-        const successMessage = document.getElementById('success-message');
-        if (successMessage) {
-            successMessage.textContent = mensaje || 'Tu pedido ha sido realizado con éxito. Recibirás una confirmación por correo electrónico.';
-        }
-        
-        // Mostrar la modal
-        if (successModal) {
-            try {
-                successModal.show();
-                console.log('Modal de éxito mostrada');
-            } catch (error) {
-                console.error('Error al mostrar modal de éxito:', error);
-                // Fallback: mostrar alert si la modal falla
-                alert(mensaje || 'Pedido realizado con éxito, espere confirmación por correo electrónico');
-            }
-        } else {
-            console.error('Modal de éxito no inicializada');
-            // Fallback: mostrar alert si la modal no está inicializada
-            alert(mensaje || 'Pedido realizado con éxito, espere confirmación por correo electrónico');
-        }
-    }
-    
-    // Configurar validación y envío del formulario
-    function configurarFormulario() {
-        const formPasarela = document.getElementById('form-pasarela');
-        const btnProceder = document.querySelector('.btn-proceder');
-        
-        formPasarela.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Verificar si el botón está deshabilitado (evita múltiples envíos)
-            if (btnProceder.disabled) {
-                return;
-            }
-            
-            // Verificar si hay productos en el carrito
-            const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
-            if (carrito.length === 0) {
-                alert('Tu carrito está vacío');
-                return;
-            }
-            
-            // Validar campos requeridos
-            const municipio = document.getElementById('id_municipio')?.value;
-            const metodoPago = document.querySelector('input[name="metodo_pago"]:checked');
-            
-            if (!municipio || municipio === '') {
-                alert('Por favor selecciona un municipio');
-                return;
-            }
-            
-            if (!metodoPago) {
-                alert('Por favor selecciona un método de pago');
-                return;
-            }
-            
-            // Verificar el comprobante si es necesario según el método de pago
-            const comprobantePago = document.querySelector('input[name="comprobante_pago"]');
-            if (['bancolombia', 'nequi', 'daviplata'].includes(metodoPago.value)) {
-                if (!comprobantePago.files || comprobantePago.files.length === 0) {
-                    alert('Por favor adjunta el comprobante de pago');
-                    return;
-                }
-            }
-            
-            // Mostrar pantalla de carga
-            mostrarPantallaCarga();
-            
-            // Deshabilitar el botón para evitar múltiples envíos
-            btnProceder.disabled = true;
-            btnProceder.classList.add('disabled');
-            btnProceder.textContent = 'Procesando...';
-            
-            // Actualizar datos del carrito en el formulario
+        try {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
             document.getElementById('carrito_data').value = JSON.stringify(carrito);
             
-            // Preparar envío del formulario
-            const formData = new FormData(this);
+            // Calcular total
+            let total = carrito.reduce((sum, item) => {
+                return sum + (parseFloat(item.precio) * parseInt(item.cantidad));
+            }, 0);
             
-            try {
-                const response = await fetch('/message-pasarela/', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                });
-                
-                const data = await response.json();
-                
-                // Ocultar pantalla de carga
-                ocultarPantallaCarga();
-                
-                if (data.status === 'success') {
-                    localStorage.removeItem('carrito'); // Limpiar carrito
-                    
-                    // Mostrar modal de éxito en lugar de alert
-                    mostrarModalExito(data.message || 'Pedido realizado con éxito, espere confirmación por correo electrónico');
-                    
-                    // No redirigir automáticamente, dejar que el usuario vea la modal y elija
-                    // La redirección se hará al hacer clic en el botón de la modal
-                } else {
-                    // Restaurar el botón
-                    btnProceder.disabled = false;
-                    btnProceder.classList.remove('disabled');
-                    btnProceder.textContent = 'Proceder al pedido';
-                    
-                    alert(data.message || 'Error al procesar la orden');
-                }
-            } catch (error) {
-                // Ocultar pantalla de carga
-                ocultarPantallaCarga();
-                
-                // Restaurar el botón
-                btnProceder.disabled = false;
-                btnProceder.classList.remove('disabled');
-                btnProceder.textContent = 'Proceder al pedido';
-                
-                console.error('Error al procesar el pedido:', error);
-                alert('Hubo un error al procesar tu pedido.');
-            }
-        });
-    }
-    
-    // Configurar el input de archivo para mejor experiencia de usuario
-    function configurarInputArchivo() {
-        const fileInput = document.querySelector('input[name="comprobante_pago"]');
-        
-        if (fileInput) {
-            const fileContainer = fileInput.closest('.file-upload-container');
+            // Añadir costo de envío
+            total += 3000; // Costo fijo de envío de 3000 pesos
             
-            fileInput.addEventListener('change', function() {
-                if (this.files && this.files.length > 0) {
-                    const fileName = this.files[0].name;
-                    console.log('Archivo seleccionado:', fileName);
-                    
-                    // Verificar si ya existe un elemento para mostrar el nombre
-                    let fileNameDisplay = fileContainer.querySelector('.file-name-display');
-                    
-                    if (!fileNameDisplay) {
-                        // Crear el elemento si no existe
-                        fileNameDisplay = document.createElement('div');
-                        fileNameDisplay.className = 'file-name-display';
-                        fileContainer.appendChild(fileNameDisplay);
-                    }
-                    
-                    fileNameDisplay.textContent = fileName;
-                    fileContainer.classList.add('file-selected');
-                }
-            });
+            // Mostrar total
+            totalElement.textContent = `$${total.toLocaleString('es-CO')}`;
+            totalFinalElement.textContent = `$${total.toLocaleString('es-CO')}`;
+            
+            // Actualizar resumen
+            actualizarResumenPedido();
+        } catch (error) {
+            console.error('Error al cargar el carrito:', error);
         }
     }
+    
+    // Función para cambiar de paso
+    function cambiarPaso(pasoActual, pasoSiguiente) {
+        // Ocultar paso actual
+        pasoContainers[pasoActual].classList.add('d-none');
+        pasoIndicadores[pasoActual].classList.remove('activo');
+        
+        // Mostrar paso siguiente
+        pasoContainers[pasoSiguiente].classList.remove('d-none');
+        pasoIndicadores[pasoSiguiente].classList.add('activo');
+    }
+    
+    // Botones Siguiente
+    btnsSiguiente.forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+            // Validación del paso actual
+            if (index === 0) {
+                // Validar campos del paso 1
+                const nombre = document.getElementById('id_nombre').value;
+                const apellido = document.getElementById('id_apellido').value;
+                const email = document.getElementById('id_email').value;
+                const telefono = document.getElementById('id_telefono').value;
+                const direccion = document.getElementById('id_direccion').value;
+                const municipio = document.getElementById('id_municipio').value;
+                
+                if (!nombre || !apellido || !email || !telefono || !direccion || municipio === '') {
+                    alert('Por favor completa todos los campos de envío');
+                    return;
+                }
+            } else if (index === 1) {
+                // Validar si se seleccionó un método de pago
+                const metodoPagoSeleccionado = document.querySelector('input[name="metodo_pago"]:checked');
+                if (!metodoPagoSeleccionado) {
+                    alert('Por favor selecciona un método de pago');
+                    return;
+                }
+                
+                // Configurar vista según método de pago seleccionado
+                actualizarVistaMetodoPago(metodoPagoSeleccionado.value);
+            }
+            
+            cambiarPaso(index, index + 1);
+        });
+    });
+    
+    // Botones Anterior
+    btnsAnterior.forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+            cambiarPaso(index + 1, index);
+        });
+    });
+    
+    // Manejar selección de método de pago
+    opcionesPago.forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Ya no mostramos el modal QR automáticamente
+            const metodoSeleccionado = this.value;
+            
+            // Solo cambiamos las clases para actualizar los QR disponibles
+            // pero no mostramos el modal
+            document.querySelectorAll('.qr-image').forEach(img => {
+                img.classList.add('d-none');
+            });
+            
+            if (metodoSeleccionado !== 'contra-entrega') {
+                const qrElement = document.getElementById(`qr-${metodoSeleccionado}`);
+                if (qrElement) {
+                    qrElement.classList.remove('d-none');
+                    // qrModal.show(); - Eliminamos esta línea para evitar que se abra automáticamente
+                }
+            }
+        });
+    });
+    
+    // Función para actualizar la vista según el método de pago
+    function actualizarVistaMetodoPago(metodo) {
+        // Referencias a los contenedores
+        const qrContainer = document.getElementById('qr-container-paso3');
+        const qrTitulo = document.querySelector('.qr-titulo');
+        const qrInstruccion = document.querySelector('.qr-instruccion');
+        const comprobanteContainer = document.getElementById('comprobante-container');
+        const contraEntregaContainer = document.getElementById('contraentrega-container');
+        
+        // Ocultar todos los QR primero
+        document.querySelectorAll('.qr-image-paso3').forEach(img => {
+            img.classList.add('d-none');
+        });
+        
+        if (metodo === 'contra-entrega') {
+            // Para contra-entrega: Ocultar QR y comprobante, mostrar mensaje de contra-entrega
+            qrContainer.classList.add('d-none');
+            qrInstruccion.classList.add('d-none');
+            comprobanteContainer.classList.add('d-none');
+            contraEntregaContainer.classList.remove('d-none');
+        } else {
+            // Para métodos bancarios: Mostrar QR y comprobante, ocultar mensaje de contra-entrega
+            qrContainer.classList.remove('d-none');
+            qrInstruccion.classList.remove('d-none');
+            comprobanteContainer.classList.remove('d-none');
+            contraEntregaContainer.classList.add('d-none');
+            
+            // Mostrar el QR correspondiente
+            const qrElement = document.getElementById(`qr-${metodo}-paso3`);
+            if (qrElement) {
+                qrElement.classList.remove('d-none');
+            }
+        }
+    }
+    
+    // Envío del formulario
+    formulario.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const metodoPagoSeleccionado = document.querySelector('input[name="metodo_pago"]:checked');
+        
+        // Verificar si se seleccionó un método de pago
+        if (!metodoPagoSeleccionado) {
+            alert('Por favor selecciona un método de pago');
+            return;
+        }
+        
+        // Para métodos bancarios (excepto contra-entrega), verificar comprobante
+        if (metodoPagoSeleccionado.value !== 'contra-entrega') {
+            const comprobante = document.getElementById('id_comprobante_pago');
+            if (!comprobante.files || comprobante.files.length === 0) {
+                alert('Por favor adjunta un comprobante de pago');
+                return;
+            }
+        }
+        
+        // Mostrar pantalla de carga
+        loadingScreen.style.display = 'flex';
+        
+        // Enviar formulario utilizando AJAX
+        const formData = new FormData(this);
+        
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Ocultar pantalla de carga
+            loadingScreen.style.display = 'none';
+            
+            if (data.status === 'success') {
+                // Mostrar modal de éxito
+                document.getElementById('success-message').textContent = data.message;
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+                
+                // Limpiar carrito
+                localStorage.removeItem('carrito');
+                
+                // Configurar redirección
+                document.getElementById('btn-ver-historial').addEventListener('click', function() {
+                    window.location.href = data.redirect;
+                });
+            } else {
+                // Mostrar mensaje de error
+                alert(data.message || 'Ha ocurrido un error al procesar tu pedido');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            loadingScreen.style.display = 'none';
+            alert('Ha ocurrido un error al procesar tu pedido');
+        });
+    });
+    
+    // Función para actualizar resumen del pedido
+    function actualizarResumenPedido() {
+        try {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            
+            // Crear un contenedor para el resumen de productos en el primer paso
+            const paso1Container = document.querySelector('.resumen-pedido-container');
+            if (paso1Container) {
+                // Primero, limpiar el contenedor excepto el botón y el total
+                const btnSiguiente = paso1Container.querySelector('.btn-siguiente');
+                const totalSection = paso1Container.querySelector('.total-section');
+                
+                if (totalSection) {
+                    // Limpiar contenedor manteniendo solo el total
+                    const nuevoResumen = document.createElement('div');
+                    nuevoResumen.className = 'resumen-productos';
+                    
+                    // Generar lista de productos
+                    carrito.forEach(item => {
+                        const productoElement = document.createElement('div');
+                        productoElement.className = 'producto-resumen';
+                        
+                        const nombreElement = document.createElement('span');
+                        nombreElement.className = 'nombre-producto';
+                        nombreElement.textContent = item.nombre;
+                        
+                        const cantidadElement = document.createElement('span');
+                        cantidadElement.className = 'cantidad-producto';
+                        cantidadElement.textContent = `x${item.cantidad}`;
+                        
+                        const precioElement = document.createElement('span');
+                        precioElement.className = 'precio-producto';
+                        precioElement.textContent = `$${(parseFloat(item.precio) * parseInt(item.cantidad)).toLocaleString('es-CO')}`;
+                        
+                        productoElement.appendChild(nombreElement);
+                        productoElement.appendChild(cantidadElement);
+                        productoElement.appendChild(precioElement);
+                        
+                        nuevoResumen.appendChild(productoElement);
+                    });
+                    
+                    // Calcular subtotal
+                    const subtotal = carrito.reduce((sum, item) => {
+                        return sum + (parseFloat(item.precio) * parseInt(item.cantidad));
+                    }, 0);
+                    
+                    // Crear elementos para subtotal y envío
+                    const subtotalElement = document.createElement('div');
+                    subtotalElement.className = 'resumen-row';
+                    subtotalElement.innerHTML = `<span>Subtotal</span><span>$${subtotal.toLocaleString('es-CO')}</span>`;
+                    
+                    const envioElement = document.createElement('div');
+                    envioElement.className = 'resumen-row';
+                    envioElement.innerHTML = `<span>Envío</span><span>$3,000</span>`;
+                    
+                    // Eliminar todo excepto el botón
+                    while (paso1Container.firstChild) {
+                        paso1Container.removeChild(paso1Container.firstChild);
+                    }
+                    
+                    // Reconstruir el contenedor con el nuevo resumen
+                    paso1Container.appendChild(nuevoResumen);
+                    paso1Container.appendChild(subtotalElement);
+                    paso1Container.appendChild(envioElement);
+                    paso1Container.appendChild(totalSection);
+                    paso1Container.appendChild(btnSiguiente);
+                }
+            }
+            
+            // Actualizar el resumen en el paso 3
+            const resumenFinalContainer = document.querySelector('.resumen-final-container');
+            if (resumenFinalContainer) {
+                // Limpiar contenedor
+                while (resumenFinalContainer.firstChild) {
+                    resumenFinalContainer.removeChild(resumenFinalContainer.firstChild);
+                }
+                
+                const resumenContainer = document.createElement('div');
+                resumenContainer.className = 'resumen-productos';
+                
+                // Generar elementos HTML para cada producto
+                carrito.forEach(item => {
+                    const productoElement = document.createElement('div');
+                    productoElement.className = 'producto-resumen';
+                    
+                    const nombreElement = document.createElement('span');
+                    nombreElement.className = 'nombre-producto';
+                    nombreElement.textContent = item.nombre;
+                    
+                    const cantidadElement = document.createElement('span');
+                    cantidadElement.className = 'cantidad-producto';
+                    cantidadElement.textContent = `x${item.cantidad}`;
+                    
+                    const precioElement = document.createElement('span');
+                    precioElement.className = 'precio-producto';
+                    precioElement.textContent = `$${(parseFloat(item.precio) * parseInt(item.cantidad)).toLocaleString('es-CO')}`;
+                    
+                    productoElement.appendChild(nombreElement);
+                    productoElement.appendChild(cantidadElement);
+                    productoElement.appendChild(precioElement);
+                    
+                    resumenContainer.appendChild(productoElement);
+                });
+                
+                // Calcular subtotal
+                const subtotal = carrito.reduce((sum, item) => {
+                    return sum + (parseFloat(item.precio) * parseInt(item.cantidad));
+                }, 0);
+                
+                // Crear elementos para subtotal, envío y total
+                const subtotalElement = document.createElement('div');
+                subtotalElement.className = 'resumen-row';
+                subtotalElement.innerHTML = `<span>Subtotal</span><span>$${subtotal.toLocaleString('es-CO')}</span>`;
+                
+                const envioElement = document.createElement('div');
+                envioElement.className = 'resumen-row';
+                envioElement.innerHTML = `<span>Envío</span><span>$3,000</span>`;
+                
+                const totalElement = document.createElement('div');
+                totalElement.className = 'total-row';
+                totalElement.innerHTML = `<span>Total</span><span class="total">$${(subtotal + 3000).toLocaleString('es-CO')}</span>`;
+                
+                // Añadir elementos
+                resumenFinalContainer.appendChild(resumenContainer);
+                resumenFinalContainer.appendChild(subtotalElement);
+                resumenFinalContainer.appendChild(envioElement);
+                resumenFinalContainer.appendChild(totalElement);
+            }
+            
+        } catch (error) {
+            console.error('Error al actualizar resumen del pedido:', error);
+        }
+    }
+    
+    // Verificar validez del carrito
+    function verificarCarrito() {
+        try {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            
+            if (carrito.length === 0) {
+                alert('Tu carrito está vacío. Agrega productos antes de continuar.');
+                window.location.href = '/productos/';
+                return false;
+            }
+            
+            return true;
+        } catch (error) {
+            console.error('Error al verificar carrito:', error);
+            return false;
+        }
+    }
+    
+    // Verificar carrito al cargar
+    if (!verificarCarrito()) {
+        return;
+    }
+    
+    // Prefill datos de usuario si está logueado
+    function prefilUsuario() {
+        const emailInput = document.getElementById('id_email');
+        const telefonoInput = document.getElementById('id_telefono');
+        const direccionInput = document.getElementById('id_direccion');
+        const nombreInput = document.getElementById('id_nombre');
+        const apellidoInput = document.getElementById('id_apellido');
+        
+        // Si hay datos en localStorage, usarlos para prefill
+        if (emailInput.value && telefonoInput.value && direccionInput.value) {
+            // Ya tienen valores, no hacer nada
+        } else {
+            // Intentar obtener datos del usuario
+            fetch('/get-user-info/')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        emailInput.value = data.email || '';
+                        telefonoInput.value = data.telefono || '';
+                        direccionInput.value = data.direccion || '';
+                        nombreInput.value = data.nombre || '';
+                        apellidoInput.value = data.apellido || '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al obtener información del usuario:', error);
+                });
+        }
+    }
+    
+    // Mostrar QR modal cuando se hace clic en las imágenes
+    document.querySelectorAll('.qr-image-paso3').forEach(img => {
+        img.addEventListener('click', function() {
+            const id = this.id.replace('-paso3', '');
+            const modalImg = document.getElementById(id);
+            if (modalImg) {
+                document.querySelectorAll('.qr-image').forEach(modalImgElem => {
+                    modalImgElem.classList.add('d-none');
+                });
+                modalImg.classList.remove('d-none');
+                qrModal.show();
+            }
+        });
+    });
+    
+    // Al cambiar el método de pago, también actualizar la interfaz en el paso 3
+    document.querySelectorAll('input[name="metodo_pago"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const metodoSeleccionado = this.value;
+            
+            // Si ya estamos en el paso 3, actualizar la vista
+            if (!document.getElementById('paso-3').classList.contains('d-none')) {
+                actualizarVistaMetodoPago(metodoSeleccionado);
+            }
+        });
+    });
+    
+    // Inicializar carrito
+    inicializarCarrito();
+    
+    // Ejecutar funciones iniciales
+    prefilUsuario();
 });
