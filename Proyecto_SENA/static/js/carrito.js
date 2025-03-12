@@ -18,13 +18,19 @@ document.addEventListener('DOMContentLoaded', function() {
         resumen.style.display = 'block';
         
         contenedor.innerHTML = carrito.map(producto => `
-            <div class="producto-carrito">
+            <div class="producto-carrito" data-id="${producto.id}">
                 <img src="${producto.imagen}" alt="${producto.nombre}">
                 <div class="producto-info">
                     <h3>${producto.nombre}</h3>
-                    <p class="producto-precio">$${(producto.precio * producto.cantidad)}</p>
+                    <p class="producto-precio">$${(producto.precio * producto.cantidad).toLocaleString('es-CO')}</p>
                     <div class="producto-cantidad">
-                        <span class="cantidad-valor">Cantidad: ${producto.cantidad}</span>
+                        <div class="input-group" style="width: 150px;">
+                            <button class="btn btn-outline-secondary" type="button" onclick="modificarCantidad('${producto.id}', -1)">-</button>
+                            <input type="number" class="form-control text-center cantidad-input" 
+                                   value="${producto.cantidad}" min="1" 
+                                   onchange="actualizarCantidadDirecta('${producto.id}', this.value)">
+                            <button class="btn btn-outline-secondary" type="button" onclick="modificarCantidad('${producto.id}', 1)">+</button>
+                        </div>
                     </div>
                 </div>
                 <button class="btn-eliminar" onclick="eliminarProducto('${producto.id}')">
@@ -35,9 +41,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const subtotal = carrito.reduce((sum, producto) => sum + (producto.precio * producto.cantidad), 0);
         const domicilio = 3000;
-        document.getElementById('subtotal').textContent = `$${subtotal}`;
-        document.getElementById('domicilio').textContent = `$${domicilio}`;
-        document.getElementById('total').textContent = `$${(subtotal + domicilio)}`;
+        document.getElementById('subtotal').textContent = `$${subtotal.toLocaleString('es-CO')}`;
+        document.getElementById('domicilio').textContent = `$${domicilio.toLocaleString('es-CO')}`;
+        document.getElementById('total').textContent = `$${(subtotal + domicilio).toLocaleString('es-CO')}`;
         
         actualizarContadorCarrito();
     }
@@ -64,6 +70,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const producto = carrito.find(p => p.id === id);
         if (producto && (producto.cantidad + cambio) > 0) {
             producto.cantidad += cambio;
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            actualizarCarritoUI();
+        }
+    };
+    
+    window.actualizarCantidadDirecta = function(id, nuevaCantidad) {
+        const cantidad = parseInt(nuevaCantidad);
+        if (isNaN(cantidad) || cantidad < 1) return;
+        
+        const producto = carrito.find(p => p.id === id);
+        if (producto) {
+            producto.cantidad = cantidad;
             localStorage.setItem('carrito', JSON.stringify(carrito));
             actualizarCarritoUI();
         }
