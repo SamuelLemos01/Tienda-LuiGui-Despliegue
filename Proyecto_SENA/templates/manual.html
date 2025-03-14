@@ -184,17 +184,19 @@
         <h2 class="titulo-pasarela"  id="pasarela-pago">Pasarela de Pago</h2>
         <p>Una vez que ya tengamos definidos los productos que vayamos a comprar en el carrito, podemos oprimir la opción de proceder al pago. Esto redirigirá a la pasarela de pago, en la que encontramos varios campos: algunos que tendremos que llenar y otros en los que ya contamos con nuestra información.
 
-            Empezando con esta pasarela, en la parte izquierda podemos ver cómo nos pide nuestro nombre y apellido para tener una mayor cercanía con el cliente; luego, encontraremos datos que ya están completados, como la dirección, el teléfono y el correo, ya que intentamos ahorrar trabajo al usuario, pues, al haber llenado estos campos en el registro, los enviamos y autocompletamos.
-            
-            Luego, en la parte derecha, el primer campo es una lista que contiene los dos municipios donde llegan los domicilios; estos son: Agrado y Pital. Después, seleccionamos el medio de pago que más le convenga al cliente, ya sea Nequi, Daviplata o pago contra entrega. Por último, encontramos nuevamente un resumen de la compra, con el total a pagar y un botón con el mensaje de "Proceder al pedido". Si le damos clic a este botón, una vez hayamos llenado todos los campos, el programa nos mostrará una alerta avisando que el pedido fue exitoso. En este punto, tendríamos que revisar nuestro correo para ver los detalles de la compra y más.</p>
+        Esta pasarela de pago, esta dividida en 3 pasos. En el primer paso nos encontraremos en el formulario de llenar nuestros datos basico, datos como nombre, apellido, numero, correo, dirección y municipio. Una vez completemos nuestros datos, nos vamos al paso 2, en este lo unico que haremos sera escoger el metodo de pago que se le facilete al usuario. Una vez con el metodo escogido, nos vamos al ultimo paso donde escanearemos el codigo QR si elegimos un banco y subiremos el comprobante de pago para finalizar la compra, si elegimos contra entrega solo debemos finalizar la compra y ya. Una vez terminado esto nos tendra que mandar a la pagina de historial para ver nuestra ultima compra.</p>
         <div class="imagenes-pasarela">
             <div>
-                <img src="{% static 'images/manual/pasarela.PNG' %}" alt="">
-                <span>1. Formulario de compra</span>
+                <img src="{% static 'images/manual/pasarela-paso-1.png' %}" alt="">
+                <span>1. Paso 1 de la pasarela</span>
             </div>
             <div>
-                <img src="{% static 'images/manual/confiramacion-pedido.PNG' %}" alt="">
-                <span>2. Confrimación de pedido exitoso</span>
+                <img src="{% static 'images/manual/pasarela-paso-2.png' %}" alt="">
+                <span>2. Paso 2 de la pasarela</span>
+            </div>
+            <div>
+                <img src="{% static 'images/manual/pasarela-paso-3.png' %}" alt="">
+                <span>3. Paso 3 de la pasarela</span>
             </div>
         </div>
     </section>

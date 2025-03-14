@@ -38,6 +38,42 @@
     transition: all 0.3s ease;
 }
 
+.estado-pedido {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.pendiente {
+    background-color: #ffe0b2;
+    color: #e65100;
+}
+
+.confirmado {
+    background-color: #c8e6c9;
+    color: #2e7d32;
+}
+
+.en_proceso {
+    background-color: #bbdefb;
+    color: #0d47a1;
+}
+
+.enviado {
+    background-color: #b3e5fc;
+    color: #01579b;
+}
+
+.entregado {
+    background-color: #c5e1a5;
+    color: #33691e;
+}
+
+.cancelado {
+    background-color: #ffcdd2;
+    color: #b71c1c;
+}
+
 .orden-item:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

@@ -19,6 +19,10 @@
                                 <h3>Orden {{ orden.numero_pedido }}</h3>
                                 <span class="orden-fecha">{{ orden.fecha_compra|date:"d/m/Y" }}</span>
                             </div>
+                            <div class="detalle-linea estado">
+                                <span>Estado:</span>
+                                <span class="estado-pedido {{ orden.pedido.estado }}">{{ orden.pedido.estado|title }}</span>
+                            </div>
                             <div class="orden-detalles">
                                 <div class="detalle-linea">
                                     <span>Número de productos:</span>

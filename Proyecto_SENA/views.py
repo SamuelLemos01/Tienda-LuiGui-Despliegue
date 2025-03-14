@@ -421,25 +421,12 @@ def history(request):
     Incluye paginación para mejor navegación.
     """
     pedidos_historial = HistorialPedidos.objects.filter(usuario=request.user).order_by('-fecha_compra')
-    
     for pedido_historial in pedidos_historial:
-        try:
-            pedido_id = pedido_historial.numero_pedido.replace('#', '')
-            pedido = Pedido.objects.filter(id=pedido_id).first()
-
-            if pedido:
-                pedido_historial.pedido = pedido
-            else:
-                class EmptyPedido:
-                    def __init__(self):
-                        self.items = []
-                
-                pedido_historial.pedido = EmptyPedido()
-                pedido_historial.pedido.items = Pedido.objects.none()
-        except (ValueError, Pedido.DoesNotExist):
+        if not pedido_historial.pedido:
             class EmptyPedido:
                 def __init__(self):
                     self.items = []
+                    self.estado = "pendiente"  
             
             pedido_historial.pedido = EmptyPedido()
             pedido_historial.pedido.items = Pedido.objects.none()
