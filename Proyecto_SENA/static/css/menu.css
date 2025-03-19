@@ -445,7 +445,6 @@ header {
     }
 }
 
-/* Específico para iPhone X/16 Pro (375px - 390px) */
 @media (max-width: 390px) {
     header {
         padding: 10px 3%;
@@ -474,7 +473,6 @@ header {
         margin: 0 auto 20px;
     }
 
-    /* Footer para iPhone - Centrado */
     .titulo-pie-pagina {
         font-size: 1.3rem;
         margin-bottom: 1.5rem;
@@ -591,7 +589,6 @@ header {
     }
 }
 
-/* Animación para el menú hamburguesa */
 @keyframes notificationPulse {
     0% {
         transform: scale(0.95);
