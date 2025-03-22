@@ -80,50 +80,44 @@
     </main>
     {% endblock %} 
     
-    <!-- footer --> 
-    <footer class="pie-pagina">
-        <div class="contenedores contenedor-pie-pagina">
-            <div class="menu-pie-pagina">
-                <div class="pie-contenido">
-                    <img src="{% static 'images/logo.png' %}" alt="Logo Tienda LuiGui">
-                </div>
-                <div class="informacion-contacto">
-                    <p class="titulo-pie-pagina">Información de Contacto</p>
-                    <ul>
-                        <li><i class="fa-solid fa-location-dot"></i> Calle 9 #5-71, El Pital, Huila</li>
-                        <li><i class="fa-solid fa-phone"></i> (312) 597 5274</li>
-                        <li><i class="fa-solid fa-envelope"></i> TiendaLuigui@gmail.com</li>
-                    </ul>
-                    <div class="iconos-sociales">
-                        <span class="facebook">
-                            <a href="https://web.facebook.com" target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-facebook-f"></i>
-                            </a>
-                        </span>
-                        <span class="whattsapp">
-                            <a href="https://wa.me/573125975274?text=Hola,%20quiero%20más%20información" target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-whatsapp"></i>
-                            </a>
-                        </span>
-                    </div>
-                </div>
-                <div class="informacion">
-                    <p class="titulo-pie-pagina">Enlaces Rápidos</p>
-                    <ul>
-                        <li><a href="{% url 'inicio' %}">Inicio</a></li>
-                        <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
-                        <li><a href="{% url 'galeria' %}">Galeria de imagenes</a></li>
-                    </ul>
+  <!-- footer --> 
+<footer class="pie-pagina">
+    <div class="contenedor-pie-pagina">
+        <div class="menu-pie-pagina">
+            <div class="pie-logo">
+                <img src="{% static 'images/logo.png' %}" alt="Logo Tienda LuiGui">
+            </div>
+            <div class="informacion-contacto">
+                <h3 class="titulo-pie-pagina">Información de Contacto</h3>
+                <ul>
+                    <li><i class="fa-solid fa-location-dot"></i> Calle 9 #5-71, El Pital, Huila</li>
+                    <li><i class="fa-solid fa-phone"></i> (312) 597 5274</li>
+                    <li><i class="fa-solid fa-envelope"></i> TiendaLuigui@gmail.com</li>
+                </ul>
+                <div class="iconos-sociales">
+                    <a href="https://web.facebook.com" class="social-icon facebook" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://wa.me/573125975274?text=Hola,%20quiero%20más%20información" class="social-icon whatsapp" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
                 </div>
             </div>
+            <div class="enlaces-rapidos">
+                <h3 class="titulo-pie-pagina">Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+                    <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
+                    <li><a href="{% url 'galeria' %}">Galería de imágenes</a></li>
+                </ul>
+            </div>
         </div>
+    </div>
+    <div class="derechos-autor">
+        <p>&copy; Copyright The Towers Development 2025</p>
+    </div>
+</footer>
 
-        <div class="derechos-autor">
-            <p>
-                &copy; Copyright The Towers Development 2025
-            </p>
-        </div>
-    </footer>
     <script src="{% static 'js/script.js' %}"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
